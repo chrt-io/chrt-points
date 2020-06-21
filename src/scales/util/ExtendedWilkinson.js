@@ -4,7 +4,8 @@ export default function ExtendedWilkinson(
   m = TICKS_DEFAULT,
   Q = [1, 5, 2, 2.5, 4, 3],
   onlyLoose = false,
-  w = [0.25, 0.2, 0.5, 0.05]
+  w = [0.25, 0.2, 0.5, 0.05],
+  nice = true
 ) {
   const eps = Number.EPSILON * 100;
   this.ticksNumber = m || TICKS_DEFAULT;
@@ -72,6 +73,12 @@ export default function ExtendedWilkinson(
               ) {
                 best.lmin = lmin;
                 best.lmax = lmax;
+
+                if(nice) {
+                  best.lmin = lmin < lmax ? Math.floor(dmin / lstep) * lstep : Math.ceil(dmin / lstep) * lstep;
+                  best.lmax = lmax > lmin ? Math.ceil(dmax / lstep) * lstep : Math.floor(dmax / lstep) * lstep;
+                }
+
                 best.lstep = lstep;
                 best.score = score;
               }

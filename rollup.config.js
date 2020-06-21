@@ -5,7 +5,6 @@ import * as meta from "./package.json";
 
 const config = {
   input: "src/index.js",
-  // external: Object.keys(meta.dependencies || {}).filter(key => /^chrt-/.test(key)),
   output: {
     file: `dist/chrt.js`,
     name: "chrt",

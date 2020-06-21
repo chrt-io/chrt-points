@@ -1,8 +1,10 @@
+import { DEFAULT_WIDTH } from '~/constants';
+import { isNull } from '~/helpers';
 import { memoize } from '~/util';
 //import Heckbert from './util/Heckbert';
 import ExtendedWilkinson from './util/ExtendedWilkinson';
 
-export default function scale(name, domain, range) {
+export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
   let _ticks = [];
   // console.log('rrrrange', range)
   range[0] += name === 'x' ? this._padding.left : -this._padding.bottom;
@@ -20,6 +22,7 @@ export default function scale(name, domain, range) {
   // calculate the new domain based on all the data
   if(!domainExtent.length || (domainExtent[0] !== currentDomain[0] || domainExtent[1] !== currentDomain[1])) {
     this._data.forEach(d => {
+      // console.log(name, domainExtent[0],d[name],domainExtent[1])
       domainExtent[0] =
         domainExtent[0] == null ? d[name] : Math.min(d[name], domainExtent[0]);
       domainExtent[1] =
@@ -42,17 +45,14 @@ export default function scale(name, domain, range) {
       }
     });
   }
-  // make sure that the new domain definition is not overriding the current domain
-  // if(this.scales[name] && this.scales[name].domain) {
-  //   domainExtent[0] = Math.min(domainExtent[0], this.scales[name].domain[0]);
-  //   domainExtent[1] = Math.max(domainExtent[1], this.scales[name].domain[1]);
-  // }
 
+  //console.log('DOMAIN', name, domainExtent)
 
   // const numScale = new Heckbert(domainExtent);
   const eNumScale = new ExtendedWilkinson(domainExtent);
-  console.log('E WILK', eNumScale.ticks())
-  // re-assign domain based on max/min of heckbert nice scale
+  // console.log('E WILK', eNumScale.ticks())
+  // re-assign domain based on, max/min of heckbert nice scale
+  //console.log(domainExtent[0],domainExtent[1],'after WILKINSON', eNumScale.getMin(), eNumScale.getMax())
   domainExtent[0] = eNumScale.getMin();
   domainExtent[1] = eNumScale.getMax();
 
@@ -77,7 +77,7 @@ export default function scale(name, domain, range) {
   };
 
   const ticks = n => {
-    if (n == null && _ticks.length > 0) {
+    if (isNull(n) && _ticks.length > 0) {
       return _ticks;
     }
     _ticks = eNumScale.ticks(n).map((value, index) => ({

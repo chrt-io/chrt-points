@@ -2,12 +2,12 @@ import {data, node} from './util';
 import {append, add, rollup, border, svg, size, setMargins, setPadding } from './layout';
 import {scaleLinear, scaleLog} from './scales';
 
-export function Chrt(data, node) {
+export function Chrt(_data = [], _node) {
   console.log('CHRT');
   this.type = 'chrt';
-  this._data = data;
-  this.root = node;
-  this.currentNode = node;
+  this._data = _data;
+  this.root = _node;
+  this.currentNode = _node;
 
   this.width;
   this.height;
@@ -41,8 +41,6 @@ export function Chrt(data, node) {
     return this;
   };
 
-  // this.x = (domain, range) => this.scaleLinear.apply(this,['x', domain, range || [0, this.width]]);
-
   this.x = (domain, range, options = {}) => {
     const transformation = options ? options.transformation || 'linear' : 'linear';
     console.log('THIS X', transformation)
@@ -75,9 +73,9 @@ export function Chrt(data, node) {
 
   this.update = () => {
     this.x();
-    console.log('X !!!!', this.scales.x ? this.scales.x.getName() : '-')
-    console.log('Y !!!!', this.scales.y ? this.scales.y.getName() : 'no name')
-    console.log('Y !!!!', this.scales.y ? this.scales.y.getTransformation() : 'no transform')
+    // console.log('X !!!!', this.scales.x ? this.scales.x.getName() : '-')
+    // console.log('Y !!!!', this.scales.y ? this.scales.y.getName() : 'no name')
+    // console.log('Y !!!!', this.scales.y ? this.scales.y.getTransformation() : 'no transform')
     this.y(null, null, this.scales.y ? {transformation: this.scales.y.getTransformation()} : {});
     this.objects.forEach(obj => obj.update());
     return this;
@@ -95,7 +93,6 @@ Chrt.prototype = chrt.prototype = {
   add,
   rollup,
   svg,
-  scaleLinear,
   border,
   size,
   setWidth: width => size(width),
