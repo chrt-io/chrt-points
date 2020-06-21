@@ -42,8 +42,11 @@ npm run watch
 
 ### Testing
 
-#### Jest
+#### Unit test with Jest
 Run `npm run test` to run all the tests on the code with Jest.
+```
+npm run test
+```
 
 To run only one test:
 ```
