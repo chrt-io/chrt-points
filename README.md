@@ -39,3 +39,13 @@ If you want to develop and see the changes reloaded live into another app you ca
 ```
 npm run watch
 ```
+
+### Testing
+
+#### Jest
+Run `npm run test` to run all the tests on the code with Jest.
+
+To run only one test:
+```
+npx jest test/scales/scaleLinear.test.js
+```
