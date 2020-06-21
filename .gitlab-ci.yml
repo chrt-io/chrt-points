@@ -1,14 +1,11 @@
 image: node:latest
 
 stages:
-  - install
   - build
   - test
 
 Build:
   stage: build
-  tags:
-    - node
   before_script:
     - npm install
   script:
@@ -16,7 +13,5 @@ Build:
 
 Test:
   stage: test
-  tags:
-    - node
   script:
     - npm run test
