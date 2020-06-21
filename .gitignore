@@ -1,0 +1,5 @@
+# Depencendies
+node_modules
+
+# Builds
+dist
