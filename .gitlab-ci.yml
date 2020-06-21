@@ -1,9 +1,22 @@
 image: node:latest
 
-test_async:
+stages:
+  - install
+  - build
+  - test
 
-script:
+Build:
+  stage: build
+  tags:
+    - node
+  before_script:
+    - npm install
+  script:
+    - npm run build
 
-- npm install
-
-- npm test
+Test:
+  stage: test
+  tags:
+    - node
+  script:
+    - npm run test
