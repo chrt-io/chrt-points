@@ -1,0 +1,55 @@
+{
+  "name": "chrt",
+  "version": "1.0.0",
+  "description": "small atomic charting components",
+  "main": "dist/chrt.js",
+  "module": "src/index.j",
+  "watch": {
+    "build": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "js,jsx"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c",
+    "lint": "eslint src --fix",
+    "watch": "npm-watch"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/chrt/exploration.git"
+  },
+  "author": "chrt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/chrt/exploration/issues"
+  },
+  "homepage": "chrt.io",
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@rollup/plugin-babel": "^5.0.2",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "babel-plugin-root-import": "^6.5.0",
+    "eslint": "^7.0.0",
+    "husky": "^4.2.5",
+    "npm-watch": "^0.6.0",
+    "rollup": "1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.3.0",
+    "watch": "^1.0.2"
+  },
+  "files": [
+    "dist/**/*.js",
+    "src/**/*.js"
+  ]
+}
