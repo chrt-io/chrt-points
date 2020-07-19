@@ -5,8 +5,8 @@ import { data, node, parent } from '~/util';
 export default function chrtGeneric() {
   this._id = null;
   this.fields = {
-    x: 'x2',
-    y: 'y2',
+    x: 'x',
+    y: 'y',
   };
 
   this.id = (id) => {
@@ -34,10 +34,16 @@ export default function chrtGeneric() {
   }
 
   this.x = (value) => {
+    if(isNull(value)) {
+      return this.fields.x;
+    }
     setField('x', value)
     return this;
   };
   this.y = (value) => {
+    if(isNull(value)) {
+      return this.fields.y;
+    }
     setField('y', value);
     return this;
   }
