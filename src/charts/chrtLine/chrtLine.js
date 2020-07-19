@@ -19,8 +19,8 @@ function chrtLine() {
     }
 
     const d = this._data.map((d, i) => {
-      const x = this.parentNode.scales['x'](d.x);
-      const y = this.parentNode.scales['y'](d.y);
+      const x = this.parentNode.scales['x'](d[this.fields.x]);
+      const y = this.parentNode.scales['y'](d[this.fields.y]);
       return `${!i ? 'M' : 'L'}${x},${y}`;
     });
     this.path.setAttribute('d', d.join(''));

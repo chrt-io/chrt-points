@@ -4,6 +4,10 @@ import { data, node, parent } from '~/util';
 
 export default function chrtGeneric() {
   this._id = null;
+  this.fields = {
+    x: 'x2',
+    y: 'y2',
+  };
 
   this.id = (id) => {
     console.log('chrtGeneric.id', id, this._id);
@@ -22,6 +26,22 @@ export default function chrtGeneric() {
   this.draw = () => {
     return this.parentNode;
   }
+
+  const setField = (field, value) => {
+    if(!isNull(value)) {
+      this.fields[field] = value;
+    }
+  }
+
+  this.x = (value) => {
+    setField('x', value)
+    return this;
+  };
+  this.y = (value) => {
+    setField('y', value);
+    return this;
+  }
+
   return this;
 }
 

@@ -23,8 +23,8 @@ function chrtPoints() {
         circle.setAttribute('data-id', `circle-${name}-${i}`);
         this.g.appendChild(circle);
       }
-      const x = this.parentNode.scales['x'](d.x);
-      const y = this.parentNode.scales['y'](d.y);
+      const x = this.parentNode.scales['x'](d[this.fields.x]);
+      const y = this.parentNode.scales['y'](d[this.fields.x]);
       circle.setAttribute('cx', x);
       circle.setAttribute('cy', y);
       circle.setAttribute('r', this.size);
