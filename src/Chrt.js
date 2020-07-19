@@ -6,6 +6,7 @@ export function Chrt(_data = [], _node) {
   console.log('CHRT', _data);
   this.type = 'chrt';
   this._data = _data;
+  this._orginalData = this._data;
   this.root = _node;
   this.currentNode = _node;
 
@@ -29,14 +30,14 @@ export function Chrt(_data = [], _node) {
 
   this.scaleLinear = (name, domain, range) => {
     console.log('apply scaleLinear', name, domain, range)
-    scaleLinear.apply(this, [name, domain, range]);
+    scaleLinear.apply(this, [name, this._data.length ? domain : [0, 10], range]);
     this.objects.forEach(obj => obj.update());
     return this;
   };
 
   this.scaleLog = (name, domain, range, transformation = 'log10') => {
     console.log('apply scaleLog', name, domain, range)
-    scaleLog.apply(this, [name, domain, range, transformation]);
+    scaleLog.apply(this, [name, this._data.length ? domain : [0, 10], range, transformation]);
     this.objects.forEach(obj => obj.update());
     return this;
   };
