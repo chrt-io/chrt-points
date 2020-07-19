@@ -16,6 +16,7 @@ export default function add(obj) {
 
   //if (COMPONENTS_W_DATA.indexOf(obj.type) === -1) {
   if(hasData(obj)) {
+    console.log('BECAUSE THE OBJ HAS DATA > UPDATE')
     return this.update();
   }
 

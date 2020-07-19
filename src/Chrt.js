@@ -3,7 +3,7 @@ import {append, add, rollup, border, svg, size, setMargins, setPadding } from '.
 import {scaleLinear, scaleLog} from './scales';
 
 export function Chrt(_data = [], _node) {
-  console.log('CHRT');
+  console.log('CHRT', _data);
   this.type = 'chrt';
   this._data = _data;
   this.root = _node;

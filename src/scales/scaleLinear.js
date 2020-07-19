@@ -28,23 +28,23 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
       domainExtent[1] =
         domainExtent[1] == null ? d[name] : Math.max(d[name], domainExtent[1]);
     });
-    // console.log('NEED TO CHECK FOR objects', this.objects)
-    this.objects.forEach(obj => {
-      // console.log('setting domain', obj.id())
-      if (obj._data) {
-        obj._data.forEach(d => {
-          domainExtent[0] =
-            domainExtent[0] == null
-              ? d[name]
-              : Math.min(d[name], domainExtent[0]);
-          domainExtent[1] =
-            domainExtent[1] == null
-              ? d[name]
-              : Math.max(d[name], domainExtent[1]);
-        });
-      }
-    });
   }
+  console.log('NEED TO CHECK FOR objects', this.objects)
+  this.objects.forEach(obj => {
+    console.log('setting domain', obj.id())
+    if (obj._data) {
+      obj._data.forEach(d => {
+        domainExtent[0] =
+          domainExtent[0] == null
+            ? d[name]
+            : Math.min(d[name], domainExtent[0]);
+        domainExtent[1] =
+          domainExtent[1] == null
+            ? d[name]
+            : Math.max(d[name], domainExtent[1]);
+      });
+    }
+  });
 
   //console.log('DOMAIN', name, domainExtent)
 

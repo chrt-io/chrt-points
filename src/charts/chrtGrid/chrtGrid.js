@@ -44,6 +44,9 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
       ticksNumber * (this.showMinorTicks ? 2 : 1)
     );
     console.log('got this ticks', name, ticksNumber, ticks);
+
+    this.g.querySelectorAll('line').forEach(gridLine => gridLine.setAttribute('toBeHidden', true));
+
     ticks.forEach((tick) => {
       let gridLine = this.g.querySelector(
         `[data-id='gridLine-${name}-${tick.value}']`
@@ -61,6 +64,7 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
 
       gridLine.setAttribute('stroke', this.stroke);
       gridLine.setAttribute('stroke-width', this.strokeWidth);
+      gridLine.removeAttribute('toBeHidden');
 
       const position = this.parentNode.scales[name](tick.value);
 
@@ -85,6 +89,7 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
         );
       }
     });
+    this.g.querySelectorAll('line[toBeHidden=true]').forEach(gridLine => gridLine.remove());
     return this.parentNode;
   };
 }

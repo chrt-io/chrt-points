@@ -1,3 +1,5 @@
+import commonjs from 'rollup-plugin-commonjs';
+import { uglify } from 'rollup-plugin-uglify';
 import resolve from 'rollup-plugin-node-resolve';
 import babel from '@rollup/plugin-babel';
 import {terser} from "rollup-plugin-terser";
@@ -8,13 +10,14 @@ const config = {
   output: {
     file: `dist/chrt.js`,
     name: "chrt",
-    format: "cjs",
+    format: "umd",
     indent: false,
     extend: true,
     exports: 'named',
     banner: `// ${meta.homepage} v${meta.version} Copyright ${(new Date).getFullYear()} ${meta.author}`,
   },
   plugins: [
+    commonjs(),
     resolve(),
     babel({ babelHelpers: 'bundled' })
   ]
@@ -30,6 +33,7 @@ export default [
     },
     plugins: [
       ...config.plugins,
+      uglify(),
       terser({
         output: {
           preamble: config.output.banner

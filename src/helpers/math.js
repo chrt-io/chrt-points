@@ -41,3 +41,15 @@ export const basePow = (base) => {
         return Math.pow(base, x);
       };
 }
+
+export function range(min = 0, max = 10, step = 1) {
+  if(arguments.length === 1) {
+    min = 0;
+    max = arguments[0];
+  }
+  const arr = [];
+  for (let i = min; i < max; i += step) {
+    arr.push(i);
+  }
+  return arr;
+}
