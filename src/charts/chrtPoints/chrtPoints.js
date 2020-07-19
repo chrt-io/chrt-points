@@ -1,3 +1,4 @@
+import { isNull } from '~/helpers';
 import { createSVG as create } from '~/layout';
 import { pointSize, pointColor, pointStroke, pointStrokeWidth } from './lib';
 import chrtGeneric from '../chrtGeneric';
@@ -15,30 +16,31 @@ function chrtPoints() {
   this.strokeWidth = 0;
 
   this.draw = () => {
-    this._data.forEach((d, i) => {
-      // const point = points.find(p => )
-      let circle = this.g.querySelector(`[data-id='circle-${name}-${i}']`);
-      if (!circle) {
-        circle = create('circle');
-        circle.setAttribute('data-id', `circle-${name}-${i}`);
-        this.g.appendChild(circle);
-      }
-      const x = this.parentNode.scales['x'](d[this.fields.x]);
-      const y = this.parentNode.scales['y'](d[this.fields.x]);
-      circle.setAttribute('cx', x);
-      circle.setAttribute('cy', y);
-      circle.setAttribute('r', this.size);
-      circle.setAttribute('fill', this.fill);
-      circle.setAttribute('stroke', this.stroke);
-      circle.setAttribute('stroke-width', this.strokeWidth);
-      // points.push({
-      //   ...d,
-      //   el: circle
-      // });
-    });
+    if(!isNull(this._data)) {
+      this._data.forEach((d, i) => {
+        // const point = points.find(p => )
+        let circle = this.g.querySelector(`[data-id='circle-${name}-${i}']`);
+        if (!circle) {
+          circle = create('circle');
+          circle.setAttribute('data-id', `circle-${name}-${i}`);
+          this.g.appendChild(circle);
+        }
+        const x = this.parentNode.scales['x'](d[this.fields.x]);
+        const y = this.parentNode.scales['y'](d[this.fields.y]);
+        circle.setAttribute('cx', x);
+        circle.setAttribute('cy', y);
+        circle.setAttribute('r', this.size);
+        circle.setAttribute('fill', this.fill);
+        circle.setAttribute('stroke', this.stroke);
+        circle.setAttribute('stroke-width', this.strokeWidth);
+        // points.push({
+        //   ...d,
+        //   el: circle
+        // });
+      });
 
-    // console.log('points', points);
-
+      // console.log('points', points);
+    }
     return this.parentNode;
   };
 }

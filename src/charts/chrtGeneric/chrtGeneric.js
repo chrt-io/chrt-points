@@ -30,6 +30,13 @@ export default function chrtGeneric() {
   const setField = (field, value) => {
     if(!isNull(value)) {
       this.fields[field] = value;
+      // TODO: verify if this is necessary -> maybe not
+      // this._accessor = (d) => {
+      //   return {
+      //     x: d[this.fields.x],
+      //     y: d[this.fields.y],
+      //   }
+      // };
     }
   }
 

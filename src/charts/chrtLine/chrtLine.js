@@ -1,3 +1,4 @@
+import { isNull } from '~/helpers';
 import { createSVG as create,  } from '~/layout';
 import { lineWidth, lineColor } from './lib';
 import chrtGeneric from '../chrtGeneric';
@@ -17,17 +18,18 @@ function chrtLine() {
       this.path = create('path');
       this.g.appendChild(this.path);
     }
-
-    const d = this._data.map((d, i) => {
-      const x = this.parentNode.scales['x'](d[this.fields.x]);
-      const y = this.parentNode.scales['y'](d[this.fields.y]);
-      return `${!i ? 'M' : 'L'}${x},${y}`;
-    });
-    this.path.setAttribute('d', d.join(''));
-    this.path.setAttribute('fill', 'none');
-    this.path.setAttribute('stroke', this.stroke);
-    this.path.setAttribute('stroke-width', this.strokeWidth)
-    this.path.setAttribute('stroke-linejoin', 'round')
+    if(!isNull(this._data)) {
+      const d = this._data.map((d, i) => {
+        const x = this.parentNode.scales['x'](d[this.fields.x]);
+        const y = this.parentNode.scales['y'](d[this.fields.y]);
+        return `${!i ? 'M' : 'L'}${x},${y}`;
+      });
+      this.path.setAttribute('d', d.join(''));
+      this.path.setAttribute('fill', 'none');
+      this.path.setAttribute('stroke', this.stroke);
+      this.path.setAttribute('stroke-width', this.strokeWidth)
+      this.path.setAttribute('stroke-linejoin', 'round')
+    }
 
     return this.parentNode;
   };
