@@ -19,7 +19,12 @@ const config = {
   plugins: [
     commonjs(),
     resolve(),
-    babel({ babelHelpers: 'bundled' })
+    babel({
+      babelHelpers: 'bundled',
+      exclude: 'node_modules/**',
+      // sourceMaps: "both",
+      babelrc: false,
+    })
   ]
 };
 

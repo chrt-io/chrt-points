@@ -19,11 +19,7 @@ function chrtLine() {
       this.g.appendChild(this.path);
     }
     if(!isNull(this._data)) {
-      const d = this._data.map((d, i) => {
-        const x = this.parentNode.scales['x'](d[this.fields.x]);
-        const y = this.parentNode.scales['y'](d[this.fields.y]);
-        return `${!i ? 'M' : 'L'}${x},${y}`;
-      });
+      const d = this.interpolationFunction(this._data);
       this.path.setAttribute('d', d.join(''));
       this.path.setAttribute('fill', 'none');
       this.path.setAttribute('stroke', this.stroke);

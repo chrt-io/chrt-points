@@ -7,7 +7,7 @@ import {
   svg,
   size,
   setMargins,
-  setPadding
+  setPadding,
 } from './layout';
 import { scaleLinear, scaleLog } from './scales';
 
@@ -144,7 +144,7 @@ Chrt.prototype = chrt.prototype = {
   setWidth: width => size(width),
   setHeight: height => size(null, height),
   margins: setMargins,
-  padding: setPadding
+  padding: setPadding,
 };
 
 export default chrt;
