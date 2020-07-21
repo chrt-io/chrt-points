@@ -1,10 +1,11 @@
 import { svgPath } from '../layout';
+import { isNull } from '~/helpers';
 
 export default function linearInterpolation(data) {
   return svgPath(
     data.map(d => [
       this.parentNode.scales['x'](d[this.fields.x]),
-      this.parentNode.scales['y'](d[this.fields.y])
+      isNull(d[this.fields.y]) ? null : this.parentNode.scales['y'](d[this.fields.y])
     ]),
     lineCommand
   );

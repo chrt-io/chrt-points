@@ -10,6 +10,7 @@ import {
   setPadding,
 } from './layout';
 import { scaleLinear, scaleLog } from './scales';
+import { isNull } from './helpers';
 
 export function Chrt(_data = [], _node) {
   console.log('CHRT', _data);
@@ -20,8 +21,8 @@ export function Chrt(_data = [], _node) {
   this.currentNode = _node;
 
   this._accessor = (d, i) => ({
-    x: Object.prototype.hasOwnProperty.call(d, 'x') ? d.x : i,
-    y: Object.prototype.hasOwnProperty.call(d, 'y') ? d.y : d
+    x: !isNull(d) && Object.prototype.hasOwnProperty.call(d, 'x') ? d.x : i,
+    y: isNull(d) ? null : Object.prototype.hasOwnProperty.call(d, 'y') ? d.y : d
   });
 
   this.width = 500; // default width

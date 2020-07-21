@@ -1,24 +1,25 @@
 import { createSVG as create } from './create';
-export default function svg (update = true) {
+import { isNull } from '../helpers';
+export default function svg(update = true) {
   let svgNode = this.root.querySelector('svg');
-  if(!svgNode) {
-    svgNode = create('svg')
+  if (!svgNode) {
+    svgNode = create('svg');
 
-    svgNode.setAttribute('preserveAspectRatio', 'none')
-    svgNode.setAttribute('width', '100%')
-    svgNode.setAttribute('height', '100%')
+    svgNode.setAttribute('preserveAspectRatio', 'none');
+    svgNode.setAttribute('width', '100%');
+    svgNode.setAttribute('height', '100%');
     // svgNode.style.overflow = 'visible';
-    this.currentNode.appendChild(svgNode)
+    this.currentNode.appendChild(svgNode);
     // this.svg = svgNode;
   }
 
   let g = svgNode.querySelector('g:first-of-type');
-  if(!g) {
+  if (!g) {
     g = svgNode.appendChild(create('g'));
   }
 
   this.currentNode = g;
-  if(update) {
+  if (update) {
     this.update();
   }
 
@@ -35,14 +36,31 @@ export default function svg (update = true) {
 // O:  - (string): a Svg <path> element
 export const svgPath = (points, command) => {
   // build the d attributes by looping over the points
-  return points.reduce((acc, point, i, a) => {
-    acc.push(
-      i === 0
-        ? // if first point
-          `M ${point[0]},${point[1]}`
-        : // else
-          `${command(point, i, a)}`
-    );
-    return acc;
-  }, []);
+  const splitByNullPoints = points.reduce(
+    (acc, point) => {
+      if (isNull(point[1])) {
+        acc.push([]);
+      } else {
+        acc[acc.length - 1].push(point);
+      }
+      return acc;
+    },
+    [[]]
+  );
+
+  const paths = splitByNullPoints.map(points => {
+    return points.reduce((acc, point, i, a) => {
+      acc.push(
+        i === 0
+          ? // if first point
+            `M ${point[0]},${point[1]}`
+          : // else
+            `${command(point, i, a)}`
+      );
+      return acc;
+    }, [])
+  })
+
+  return [].concat(...paths);
+
 };
