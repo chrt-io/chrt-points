@@ -1,13 +1,15 @@
 import { createSVG as create } from '~/layout';
 import generateTicks from './lib/generateTicks';
 import chrtAxis from './chrtAxis';
-import { DEFAULT_ORIENTATION } from '~/constants';
+import { DEFAULT_ORIENTATION, TICKS_DEFAULT } from '~/constants';
 
-function xAxis(ticksNumber) {
+function xAxis(ticksNumber = TICKS_DEFAULT) {
   chrtAxis.call(this, 'x');
   const name = this.name;
 
-  const xAxisTick = tickGroup => {
+  const xAxisTick = (tickGroup, visible) => {
+    tickGroup.style.display = visible ? 'block' : 'none';
+
     const tickLine = tickGroup.querySelector('line');
 
     const orientation =
@@ -31,8 +33,9 @@ function xAxis(ticksNumber) {
 
     const { _margins, width, height, scales } = this.parentNode;
 
+    console.log('X AXIS TICKS NUMBER', ticksNumber)
     const ticks = scales[name]
-      .ticks(ticksNumber)
+      .ticks(ticksNumber * 2)
       .filter((tick, i, arr) => this.ticksFilter(tick.value, i, arr));
 
     this.g.setAttribute('id', `${name}Axis`);
@@ -63,10 +66,15 @@ function xAxis(ticksNumber) {
       axisLine.remove();
     }
 
+    const isLog = scales[name].isLog();
     generateTicks.call(this, ticks, name, (tickGroup, tick) => {
       const position = scales[name](tick.value);
       tickGroup.setAttribute('transform', `translate(${position}, 0)`);
-      xAxisTick(tickGroup, tick);
+      let visible =
+        position >= _margins.left && position <= width - _margins.right;
+      visible = visible && (this.showMinorTicks || !tick.isMinor);
+      visible = visible && ((!isLog) || (isLog && !tick.isMinor));
+      xAxisTick(tickGroup, visible);
     });
 
     return this.parentNode;

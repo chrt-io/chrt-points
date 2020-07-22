@@ -13,6 +13,8 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
 
   // ticksNumber *= 2;
 
+  console.log('GRID', name, ticksNumber);
+
   this.strokeWidth = DEFAULT_LINE_WIDTH;
   this.stroke = DEAULT_LINE_COLOR;
   this.showMinorTicks = false;
@@ -41,7 +43,8 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
     const { _margins, width, height } = this.parentNode;
 
     const ticks = this.parentNode.scales[name].ticks(
-      ticksNumber * (this.showMinorTicks ? 2 : 1)
+      //ticksNumber * (this.showMinorTicks ? 2 : 1)
+      ticksNumber * 2
     );
     console.log('got this ticks', name, ticksNumber, ticks);
 
@@ -69,17 +72,21 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
       const position = this.parentNode.scales[name](tick.value);
 
       if (name === 'x') {
+        const isLog = this.parentNode.scales[name].isLog();
+        const visible =
+          this.showMinorTicks || (!isLog && !tick.isMinor) || (isLog && !tick.isMinor); // TODO: improve this check
         verticalGridLine(
           gridLine,
           position,
           height - _margins.bottom,
-          _margins.top
+          _margins.top,
+          visible
         );
       }
       if (name === 'y') {
         const isLog = this.parentNode.scales[name].isLog();
         const visible =
-          this.showMinorTicks || !isLog || (isLog && !tick.isMinor);
+          this.showMinorTicks || (!isLog && !tick.isMinor) || (isLog && !tick.isMinor); // TODO: improve this check
         horizontalGridLine(
           gridLine,
           position,

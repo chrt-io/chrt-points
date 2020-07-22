@@ -1,14 +1,13 @@
 import { TICKS_DEFAULT } from '~/constants';
 export default function ExtendedWilkinson(
   [dmin, dmax],
-  m = TICKS_DEFAULT,
+  ticksN = TICKS_DEFAULT,
   Q = [1, 5, 2, 2.5, 4, 3],
   onlyLoose = false,
   w = [0.25, 0.2, 0.5, 0.05],
   nice = true
 ) {
   const eps = Number.EPSILON * 100;
-  this.ticksNumber = m || TICKS_DEFAULT;
   this._ticks = [];
 
   if (dmin > dmax) {
@@ -18,13 +17,15 @@ export default function ExtendedWilkinson(
   }
 
   // const n = Q.length;
-  const best = { score: -2 };
+  let best = { score: -2 };
 
-  this.ticks = () => {
+  this.ticks = (ticksNumber) => {
+    console.log('EWILKS CALLED TICKS WITH', ticksNumber)
     if (dmax - dmin < eps) {
-      return range(dmin, dmax, (dmax - dmin) / m);
+      return range(dmin, dmax, (dmax - dmin) / ticksNumber);
     }
-
+    console.log('RUNNING TICKS WITH', ticksNumber)
+    best = { score: -2 };
     let j = 1;
     while (j < Infinity) {
       for (const q of Q) {
@@ -35,7 +36,7 @@ export default function ExtendedWilkinson(
         }
         let k = 2;
         while (k < Infinity) {
-          const dm = density.max(k, m);
+          const dm = density.max(k, ticksNumber);
           if (w[0] * sm + w[1] + w[2] * dm + w[3] < best.score) {
             break;
           }
@@ -43,6 +44,7 @@ export default function ExtendedWilkinson(
           let z = Math.ceil(Math.log10(delta));
           while (z < Infinity) {
             const step = j * q * Math.pow(10, z);
+
             const cm = coverage.max(dmin, dmax, step * (k - 1));
             if (w[0] * sm + w[1] * cm + w[2] * dm + w[3] < best.score) {
               break;
@@ -62,7 +64,7 @@ export default function ExtendedWilkinson(
 
               const s = simplicity(q, Q, j, lmin, lmax, lstep);
               const c = coverage(dmin, dmax, lmin, lmax);
-              const g = density(k, m, dmin, dmax, lmin, lmax);
+              const g = density(k, ticksNumber, dmin, dmax, lmin, lmax);
               const l = legibility(lmin, lmax, lstep);
 
               const score = w[0] * s + w[1] * c + w[2] * g + w[3] * l;
@@ -78,7 +80,7 @@ export default function ExtendedWilkinson(
                   best.lmin = lmin < lmax ? Math.floor(dmin / lstep) * lstep : Math.ceil(dmin / lstep) * lstep;
                   best.lmax = lmax > lmin ? Math.ceil(dmax / lstep) * lstep : Math.floor(dmax / lstep) * lstep;
                 }
-
+                console.log('lstep', lstep);
                 best.lstep = lstep;
                 best.score = score;
               }
@@ -91,13 +93,13 @@ export default function ExtendedWilkinson(
       }
       j += 1;
     }
-
+    console.log('range',best.lmin, best.lmax + best.lstep, best.lstep)
     this._ticks = range(best.lmin, best.lmax + best.lstep, best.lstep);
-
+    console.log('E-WILK RETURNING', this._ticks)
     return this._ticks;
   };
 
-  this.ticks(this.ticksNumber);
+  this.ticks(ticksN);
 
   // console.log('BEST', best);
   // best.ticks = d3.range(best.lmin, best.lmax + best.lstep, best.lstep);

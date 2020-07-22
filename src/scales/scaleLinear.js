@@ -1,4 +1,4 @@
-import { DEFAULT_WIDTH } from '~/constants';
+import { DEFAULT_WIDTH, TICKS_DEFAULT } from '~/constants';
 import { isNull } from '~/helpers';
 import { memoize } from '~/util';
 //import Heckbert from './util/Heckbert';
@@ -76,7 +76,8 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
     return startCoord + rangeWidth * valueToDomain;
   };
 
-  const ticks = n => {
+  const ticks = (n = TICKS_DEFAULT) => {
+    console.log('LINEAR SCALE', 'ticks', n)
     if (isNull(n) && _ticks.length > 0) {
       return _ticks;
     }

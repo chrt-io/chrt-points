@@ -1,9 +1,9 @@
 import { createSVG as create } from '~/layout';
 import generateTicks from './lib/generateTicks';
 import chrtAxis from './chrtAxis';
-import { DEFAULT_ORIENTATION } from '~/constants';
+import { DEFAULT_ORIENTATION, TICKS_DEFAULT } from '~/constants';
 
-function yAxis(ticksNumber) {
+function yAxis(ticksNumber = TICKS_DEFAULT) {
   chrtAxis.call(this, 'y');
   const name = this.name;
 
@@ -58,7 +58,8 @@ function yAxis(ticksNumber) {
     this.g.setAttribute('transform', `translate(${axisX},0)`);
 
     const ticks = scales[name]
-      .ticks(ticksNumber)
+      //.ticks(ticksNumber * (this.showMinorTicks ? 2 : 1))
+      .ticks(ticksNumber * 2)
       .filter((tick, i, arr) => this.ticksFilter(tick.value, i, arr));
 
     let axisLine = this.g.querySelector(`[data-id='tick-${name}-axis-line']`);
@@ -90,7 +91,8 @@ function yAxis(ticksNumber) {
       tickGroup.setAttribute('transform', `translate(0, ${position})`);
       let visible =
         position >= _margins.top && position <= height - _margins.bottom;
-      visible = visible && (!isLog || (isLog && !tick.isMinor));
+      visible = visible && (this.showMinorTicks || !tick.isMinor);
+      visible = visible && ((!isLog) || (isLog && !tick.isMinor));
       yAxisTick(tickGroup, visible);
     });
 
