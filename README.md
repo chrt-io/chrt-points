@@ -2,6 +2,9 @@
 
 In this project we will explore ideas about what and how to create these charts
 
+## CHRT
+Opinionated charts
+
 ### How to build
 
 ####  Install the dependencies
