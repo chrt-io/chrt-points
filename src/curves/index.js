@@ -1,2 +1,2 @@
-export { default as linearInterpolation } from './linearInterpolation';
-export { default as splineInterpolation } from './splineInterpolation';
+export { default as linearInterpolation, lineCommand } from './linearInterpolation';
+export { default as splineInterpolation, bezierCommand } from './splineInterpolation';

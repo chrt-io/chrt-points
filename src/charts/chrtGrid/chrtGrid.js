@@ -6,7 +6,10 @@ import lineColor from './lib/lineColor';
 import lineStyle from './lib/lineStyle';
 import minor from './lib/minor';
 import chrtGeneric from '../chrtGeneric';
-
+import {
+  firstTick,
+  lastTick,
+} from './lib';
 const DEFAULT_LINE_WIDTH = 1;
 const DEAULT_LINE_COLOR = '#000';
 
@@ -15,11 +18,12 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
   this.type = 'grid';
   // ticksNumber *= 2;
 
-  console.log('GRID', name, ticksNumber);
+  // console.log('GRID', name, ticksNumber);
 
   this.strokeWidth = DEFAULT_LINE_WIDTH;
   this.stroke = DEAULT_LINE_COLOR;
   this.showMinorTicks = false;
+  this.ticksFilter = () => true;
 
   const verticalGridLine = (gridLine, position, y1, y2, visible = true) => {
     gridLine.style.display = visible ? 'block' : 'none';
@@ -47,9 +51,11 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
     const ticks = this.parentNode.scales[name].ticks(
       //ticksNumber * (this.showMinorTicks ? 2 : 1)
       ticksNumber * 2
-    );
-    console.log('got this ticks', name, ticksNumber, ticks);
+    )
+    .filter((tick, i, arr) => this.ticksFilter(tick.value, i, arr));
 
+    // console.log('got this ticks', name, ticksNumber, ticks);
+    this.g.setAttribute('id', `${name}Grid-${this.id()}`);
     this.g.querySelectorAll('line').forEach(gridLine => gridLine.setAttribute('toBeHidden', true));
 
     ticks.forEach((tick) => {
@@ -117,6 +123,8 @@ chrtGrid.prototype = Object.assign(chrtGrid.prototype, {
   width: lineWidth,
   color: lineColor,
   minor,
+  firstTick,
+  lastTick
 });
 
 export default chrtGrid;

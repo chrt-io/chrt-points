@@ -1,7 +1,7 @@
 import { uuid, hasData } from '~/helpers';
 export default function add(obj) {
   const id = uuid();
-  console.log('adding', obj.type, id);
+  // console.log('adding', obj.type, id);
   obj
     .id(id)
     .parent(this)
@@ -16,7 +16,7 @@ export default function add(obj) {
 
   //if (COMPONENTS_W_DATA.indexOf(obj.type) === -1) {
   if(hasData(obj)) {
-    console.log('BECAUSE THE OBJ HAS DATA > UPDATE')
+    // console.log('BECAUSE THE OBJ HAS DATA > UPDATE')
     return this.update();
   }
 

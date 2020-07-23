@@ -8,16 +8,15 @@ export default function render() {
 
   if(hasData(this)) {
     // series
+    console.log('THIS IS A SERIES', 'APPEND')
     this.currentNode.append(this.g);
   } else {
-    if(this.type === 'axis') {
-      const grid = this.parentNode.objects.slice().reverse().find(obj => obj.type === 'grid');
-      if(grid) {
+    const grid = (this.parentNode.objects || []).slice().reverse().find(obj => obj.type === 'grid');
+    if(grid && this.type === 'axis') {
+        console.log('THIS IS AN',this.type,'AND THERE IS A GRID',grid,'INSERT BEFORE',grid.node(), grid.node().nextSibling)
         this.currentNode.insertBefore(this.g, grid.node().nextSibling);
-      } else {
-        this.currentNode.prepend(this.g);
-      }
     } else {
+      console.log('THIS IS A', this.type, 'PREPEND')
       this.currentNode.prepend(this.g);
     }
 

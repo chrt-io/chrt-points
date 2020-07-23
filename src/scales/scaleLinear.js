@@ -29,9 +29,9 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
         domainExtent[1] == null ? d[name] : Math.max(d[name], domainExtent[1]);
     });
   }
-  console.log('NEED TO CHECK FOR objects', this.objects)
+  // console.log('NEED TO CHECK FOR objects', this.objects)
   this.objects.forEach(obj => {
-    console.log('setting domain', obj.id())
+    // console.log('setting domain', obj.id())
     if (obj._data) {
       obj._data.forEach(d => {
         domainExtent[0] =
@@ -46,13 +46,13 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
     }
   });
 
-  //console.log('DOMAIN', name, domainExtent)
+  //// console.log('DOMAIN', name, domainExtent)
 
   // const numScale = new Heckbert(domainExtent);
   const eNumScale = new ExtendedWilkinson(domainExtent);
   // console.log('E WILK', eNumScale.ticks())
   // re-assign domain based on, max/min of heckbert nice scale
-  //console.log(domainExtent[0],domainExtent[1],'after WILKINSON', eNumScale.getMin(), eNumScale.getMax())
+  //// console.log(domainExtent[0],domainExtent[1],'after WILKINSON', eNumScale.getMin(), eNumScale.getMax())
   domainExtent[0] = eNumScale.getMin();
   domainExtent[1] = eNumScale.getMax();
 
@@ -77,7 +77,7 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
   };
 
   const ticks = (n = TICKS_DEFAULT) => {
-    console.log('LINEAR SCALE', 'ticks', n)
+    // console.log('LINEAR SCALE', 'ticks', n)
     if (isNull(n) && _ticks.length > 0) {
       return _ticks;
     }

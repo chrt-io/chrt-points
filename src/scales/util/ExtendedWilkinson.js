@@ -20,11 +20,11 @@ export default function ExtendedWilkinson(
   let best = { score: -2 };
 
   this.ticks = (ticksNumber) => {
-    console.log('EWILKS CALLED TICKS WITH', ticksNumber)
+    // console.log('EWILKS CALLED TICKS WITH', ticksNumber)
     if (dmax - dmin < eps) {
       return range(dmin, dmax, (dmax - dmin) / ticksNumber);
     }
-    console.log('RUNNING TICKS WITH', ticksNumber)
+    // console.log('RUNNING TICKS WITH', ticksNumber)
     best = { score: -2 };
     let j = 1;
     while (j < Infinity) {
@@ -80,7 +80,7 @@ export default function ExtendedWilkinson(
                   best.lmin = lmin < lmax ? Math.floor(dmin / lstep) * lstep : Math.ceil(dmin / lstep) * lstep;
                   best.lmax = lmax > lmin ? Math.ceil(dmax / lstep) * lstep : Math.floor(dmax / lstep) * lstep;
                 }
-                console.log('lstep', lstep);
+                // console.log('lstep', lstep);
                 best.lstep = lstep;
                 best.score = score;
               }
@@ -93,9 +93,9 @@ export default function ExtendedWilkinson(
       }
       j += 1;
     }
-    console.log('range',best.lmin, best.lmax + best.lstep, best.lstep)
+    // console.log('range',best.lmin, best.lmax + best.lstep, best.lstep)
     this._ticks = range(best.lmin, best.lmax + best.lstep, best.lstep);
-    console.log('E-WILK RETURNING', this._ticks)
+    // console.log('E-WILK RETURNING', this._ticks)
     return this._ticks;
   };
 

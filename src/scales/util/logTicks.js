@@ -46,7 +46,7 @@ export default function logTicks(
     // }
     this.ticksNumber = n;
 
-    console.log('CALCULATING TICKS', dmin, dmax, this.ticksNumber)
+    // console.log('CALCULATING TICKS', dmin, dmax, this.ticksNumber)
     this._ticks = [];
 
     // this.range = this.nicenum(dmax - dmin, false);
@@ -58,17 +58,17 @@ export default function logTicks(
     this.lmin = pow(Math.floor(log(dmin)) - 1);
     this.lmax = pow(Math.floor(log(dmax)) + 1);
 
-    console.log('TICKS', n, [dmin, dmax], this.range, [this.lmin, this.lmax]);
+    // console.log('TICKS', n, [dmin, dmax], this.range, [this.lmin, this.lmax]);
 
     const ticksRange = [log(this.lmin), log(this.lmax)];
 
-    console.log('ticksRange', ticksRange)
+    // console.log('ticksRange', ticksRange)
 
     if (ticksRange[0] > 0) {
       for (let i = ticksRange[0]; i <= ticksRange[1]; ++i) {
           for (let k = 1; k < base; ++k) {
             const tick = pow(i) * k;
-            console.log('k1',k,base,tick)
+            // console.log('k1',k,base,tick)
             // if (tick > this.lmax) break;
             if(tick >= this.lmin) {
               this._ticks.push(tick);
@@ -78,7 +78,7 @@ export default function logTicks(
     } else for (let i = ticksRange[0]; i <= ticksRange[1]; ++i) {
         for (let k = base - 1; k >= 1; --k) {
           const tick = pow(i) * k;
-          console.log('k2',k,base,tick, this.lmax)
+          // console.log('k2',k,base,tick, this.lmax)
           // if (tick > this.lmax) break;
           if(tick >= this.lmin) {
             this._ticks.push(tick);

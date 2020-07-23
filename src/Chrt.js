@@ -44,7 +44,6 @@ export function Chrt(_data = [], _node) {
   this.objects = [];
 
   this.scaleLinear = (name, domain, range) => {
-    console.log('apply scaleLinear', name, domain, range);
     scaleLinear.apply(this, [
       name,
       this._data.length ? domain : [0, 10],
@@ -55,7 +54,6 @@ export function Chrt(_data = [], _node) {
   };
 
   this.scaleLog = (name, domain, range, transformation = 'log10') => {
-    console.log('apply scaleLog', name, domain, range);
     scaleLog.apply(this, [
       name,
       this._data.length ? domain : [0, 10],
@@ -70,7 +68,6 @@ export function Chrt(_data = [], _node) {
     const transformation = options
       ? options.transformation || 'linear'
       : 'linear';
-    console.log('THIS X', transformation);
     switch (transformation) {
       case 'log':
       case 'log10':
@@ -94,7 +91,6 @@ export function Chrt(_data = [], _node) {
     const transformation = options
       ? options.transformation || 'linear'
       : 'linear';
-    console.log('THIS Y', domain, range, transformation);
     switch (transformation) {
       case 'log':
       case 'log10':
@@ -116,9 +112,6 @@ export function Chrt(_data = [], _node) {
 
   this.update = () => {
     this.x();
-    // console.log('X !!!!', this.scales.x ? this.scales.x.getName() : '-')
-    // console.log('Y !!!!', this.scales.y ? this.scales.y.getName() : 'no name')
-    // console.log('Y !!!!', this.scales.y ? this.scales.y.getTransformation() : 'no transform')
     this.y(
       null,
       null,

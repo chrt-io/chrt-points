@@ -11,7 +11,4 @@ export default function linearInterpolation(data) {
   );
 }
 
-// Svg path line command
-// I:  - point (array) [x, y]: coordinates
-// O:  - (string) 'L x,y': svg line command
-const lineCommand = point => `L ${point[0]} ${point[1]}`;
+export const lineCommand = point => `L${point[0]},${point[1]}`;

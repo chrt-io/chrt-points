@@ -3,7 +3,7 @@ import { baseLog } from '~/helpers/math';
 import { memoize } from '~/util';
 
 export default function scale(name, domain, range, transformation = 'log10') {
-  console.log('LOG SCALE', name, this);
+  // console.log('LOG SCALE', name, this);
 
   const log = baseLog();
 
@@ -60,7 +60,7 @@ export default function scale(name, domain, range, transformation = 'log10') {
   // console.log('new this.scalingFunction', domainExtent, range, rangeWidth)
   const scalingFunction = d => {
     const valueToDomain = (log(d) - log(domainExtent[0])) / domainWidth;
-    //console.log('LOG scalingFunction',domainExtent, d,log(d),log(domainExtent[0]),log(domainExtent[1]),valueToDomain);
+    //// console.log('LOG scalingFunction',domainExtent, d,log(d),log(domainExtent[0]),log(domainExtent[1]),valueToDomain);
     // console.log('LOG', d, startCoord  + rangeWidth * valueToDomain)
     return (startCoord  + rangeWidth * valueToDomain);
   };

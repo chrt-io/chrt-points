@@ -33,7 +33,7 @@ function xAxis(ticksNumber = TICKS_DEFAULT) {
 
     const { _margins, width, height, scales } = this.parentNode;
 
-    console.log('X AXIS TICKS NUMBER', ticksNumber)
+    // console.log('X AXIS TICKS NUMBER', ticksNumber)
     const ticks = scales[name]
       .ticks(ticksNumber * 2)
       .filter((tick, i, arr) => this.ticksFilter(tick.value, i, arr));

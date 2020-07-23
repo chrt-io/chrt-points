@@ -22,7 +22,7 @@ export default function scale(name, scaleType, domain, range) {
   domainExtent[0] = numScale.getNiceMin();
   domainExtent[1] = numScale.getNiceMax();
 
-  // console.log('DOMAIN', domainExtent);
+  // // console.log('DOMAIN', domainExtent);
 
   const domainWidth = domainExtent[1] - domainExtent[0];
   const direction = (range[1] >= range[0] ? 1 : -1);
@@ -35,7 +35,7 @@ export default function scale(name, scaleType, domain, range) {
   const startCoord =
     range[0] + (name === 'x' ? this.margins.left : this.margins.bottom) * direction;
 
-  // console.log(name, range[1], range[0], `rangeWidth: ${rangeWidth}`, this.margins, 'startCoord:', startCoord);
+  // // console.log(name, range[1], range[0], `rangeWidth: ${rangeWidth}`, this.margins, 'startCoord:', startCoord);
   this.scalingFunction = d => d;
 
   switch (scaleType) {
@@ -65,10 +65,10 @@ export default function scale(name, scaleType, domain, range) {
       value,
       x: this.scalingFunction(value),
     }));
-    // console.log("Tick Spacing:\t" + numScale.getTickSpacing());
-    // console.log("Nice Minimum:\t" + numScale.getNiceMin());
-    // console.log("Nice Maximum:\t" + numScale.getNiceMax());
-    // console.log("Nice ticks:\t" + numScale.getTicks());
+    // // console.log("Tick Spacing:\t" + numScale.getTickSpacing());
+    // // console.log("Nice Minimum:\t" + numScale.getNiceMin());
+    // // console.log("Nice Maximum:\t" + numScale.getNiceMax());
+    // // console.log("Nice ticks:\t" + numScale.getTicks());
 
     return _ticks;
   };

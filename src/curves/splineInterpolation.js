@@ -53,14 +53,14 @@ const controlPoint = (current, previous, next, reverse) => {
 //     - i (integer): index of 'point' in the array 'a'
 //     - a (array): complete array of points coordinates
 // O:  - (string) 'C x2,y2 x1,y1 x,y': SVG cubic bezier C command
-const bezierCommand = (point, i, a) => {
+export const bezierCommand = (point, i, a) => {
   // start control point
   const [cpsX, cpsY] = controlPoint(a[i - 1], a[i - 2], point)
   // end control point
   const [cpeX, cpeY] = controlPoint(point, a[i - 1], a[i + 1], true)
   return `C ${cpsX},${cpsY} ${cpeX},${cpeY} ${point[0]},${point[1]}`
 }
-// 
+//
 // function splineCurve(firstPoint, middlePoint, afterPoint, t = 1) {
 //   // Props to Rob Spencer at scaled innovation for his post on splining between points
 //   // http://scaledinnovation.com/analytics/splines/aboutSplines.html
