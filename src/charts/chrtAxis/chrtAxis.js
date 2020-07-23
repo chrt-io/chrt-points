@@ -27,6 +27,7 @@ const TICK_POSITION = 'outside';
 
 function chrtAxis(name) {
   chrtGeneric.call(this);
+  this.type = 'axis';
 
   this.name = name;
   this.strokeWidth = DEFAULT_LINE_WIDTH;

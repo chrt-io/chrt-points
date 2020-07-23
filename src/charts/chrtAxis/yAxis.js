@@ -52,7 +52,7 @@ function yAxis(ticksNumber = TICKS_DEFAULT) {
     }
     const { _margins, scales, width, height } = this.parentNode;
 
-    this.g.setAttribute('id', `${name}Axis`);
+    this.g.setAttribute('id', `${name}Axis${this.id()}`);
     const axisX =
       this.orientation === DEFAULT_ORIENTATION[this.name] ? _margins.left : width - _margins.right;
     this.g.setAttribute('transform', `translate(${axisX},0)`);

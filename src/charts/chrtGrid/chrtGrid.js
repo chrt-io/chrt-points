@@ -12,7 +12,7 @@ const DEAULT_LINE_COLOR = '#000';
 
 function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
   chrtGeneric.call(this);
-
+  this.type = 'grid';
   // ticksNumber *= 2;
 
   console.log('GRID', name, ticksNumber);

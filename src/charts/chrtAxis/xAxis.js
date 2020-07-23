@@ -38,7 +38,7 @@ function xAxis(ticksNumber = TICKS_DEFAULT) {
       .ticks(ticksNumber * 2)
       .filter((tick, i, arr) => this.ticksFilter(tick.value, i, arr));
 
-    this.g.setAttribute('id', `${name}Axis`);
+    this.g.setAttribute('id', `${name}Axis-${this.id()}`);
     const axisY =
       this.orientation === DEFAULT_ORIENTATION[this.name]
         ? height - _margins.bottom
