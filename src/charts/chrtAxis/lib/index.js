@@ -8,3 +8,4 @@ export { default as showTicks, hideTicks, firstTick, lastTick, firstAndLastTicks
 export { default as orient } from './orientation';
 export { default as format } from './labelFormat';
 export { default as minor } from './minor';
+export { default as label } from './label';

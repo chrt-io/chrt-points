@@ -1,7 +1,7 @@
 import { createSVG as create } from '~/layout';
 
 export default function generateTicks(ticks,name,callback) {
-  ticks.forEach(tick => {
+  ticks.forEach((tick, i, arr) => {
     let tickGroup = this.g.querySelector(
       `[data-id='tick-${name}-${tick.value}']`
     );
@@ -21,6 +21,10 @@ export default function generateTicks(ticks,name,callback) {
 
       const label = create('text')
       label.textContent = this.labelFormat(tick.value);
+      label.setAttribute('fill', this.stroke)
+      if(this._label && i === arr.length - 1) {
+        label.textContent = `${this.labelFormat(tick.value)} ${this._label.text}`;
+      }
       tickGroup.appendChild(label);
     }
     if(callback) {

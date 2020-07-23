@@ -16,6 +16,7 @@ import {
   orient,
   format,
   minor,
+  label,
 } from './lib';
 import chrtGeneric from '../chrtGeneric';
 
@@ -37,6 +38,7 @@ function chrtAxis(name) {
   this.orientation = DEFAULT_ORIENTATION[name];
   this.labelFormat = d => d;
   this.showMinorTicks = false;
+  this._label = null;
 
   this.draw = () => {
     if (!this.parentNode.scales[name]) {
@@ -65,6 +67,7 @@ chrtAxis.prototype = Object.assign(chrtAxis.prototype, {
   orient,
   format,
   minor,
+  label,
 });
 
 export default chrtAxis;

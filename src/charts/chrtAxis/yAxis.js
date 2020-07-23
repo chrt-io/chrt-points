@@ -96,6 +96,8 @@ function yAxis(ticksNumber = TICKS_DEFAULT) {
       yAxisTick(tickGroup, visible);
     });
 
+
+
     return this.parentNode;
   };
 }

@@ -1,7 +1,9 @@
 import { createSVG as create } from '~/layout';
 import { TICKS_DEFAULT } from '~/constants';
+import { isNull } from '~/helpers';
 import lineWidth from './lib/lineWidth';
 import lineColor from './lib/lineColor';
+import lineStyle from './lib/lineStyle';
 import minor from './lib/minor';
 import chrtGeneric from '../chrtGeneric';
 
@@ -67,6 +69,9 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
 
       gridLine.setAttribute('stroke', this.stroke);
       gridLine.setAttribute('stroke-width', this.strokeWidth);
+      if(!isNull(this.strokeStyle)) {
+        gridLine.setAttribute('stroke-dasharray', this.strokeStyle);
+      }
       gridLine.removeAttribute('toBeHidden');
 
       const position = this.parentNode.scales[name](tick.value);
@@ -99,6 +104,9 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
     this.g.querySelectorAll('line[toBeHidden=true]').forEach(gridLine => gridLine.remove());
     return this.parentNode;
   };
+
+  this.dashed = () => lineStyle.call(this, 'dashed');
+  this.dotted = () => lineStyle.call(this, 'dotted');
 }
 
 chrtGrid.prototype = Object.create(chrtGeneric.prototype);
