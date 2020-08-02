@@ -30,7 +30,7 @@
     "url": "git+ssh://git@gitlab.com/chrt/exploration.git"
   },
   "author": "chrt",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://gitlab.com/chrt/exploration/issues"
   },
