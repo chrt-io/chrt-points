@@ -103,6 +103,8 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
   scalingFunction.isLog = () => false;
   scalingFunction.domain = domainExtent;
   scalingFunction.range = range;
+  scalingFunction.step = eNumScale.getStep();
+  scalingFunction.barwidth = scalingFunction(domainExtent[0] + scalingFunction.step) - scalingFunction(domainExtent[0]);
 
   scalingFunction.ticks = memoize(ticks);
   this.scales[name] = scalingFunction;
