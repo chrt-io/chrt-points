@@ -15,7 +15,7 @@ export default function add(obj) {
   this.objects.push(obj);
 
   //if (COMPONENTS_W_DATA.indexOf(obj.type) === -1) {
-  if(hasData(obj)) {
+  if(hasData(obj) || obj.updater) {
     // console.log('BECAUSE THE OBJ HAS DATA > UPDATE')
     return this.update();
   }

@@ -20,10 +20,10 @@ export default function generateTicks(ticks,name,callback) {
       tickGroup.appendChild(tickLine);
 
       const label = create('text')
-      label.textContent = this.labelFormat(tick.value);
-      label.setAttribute('fill', this.stroke)
+      label.textContent = this.labelFormat(tick.value, i, arr);
+      label.setAttribute('fill', this.tickTextColor)
       if(this._label && i === arr.length - 1) {
-        label.textContent = `${this.labelFormat(tick.value)} ${this._label.text}`;
+        label.textContent = `${this.labelFormat(tick.value, i, arr)} ${this._label.text}`;
       }
       tickGroup.appendChild(label);
     }

@@ -13,12 +13,13 @@ import { scaleLinear, scaleLog } from './scales';
 import { isNull } from './helpers';
 
 export function Chrt(_data = [], _node) {
-  console.log('CHRT', _data);
+  // console.log('CHRT', _data);
   this.type = 'chrt';
   this._data = _data;
   this._orginalData = this._data;
   this.root = _node;
   this.currentNode = _node;
+  this._css = false;
 
   this._accessor = (d, i) => ({
     x: !isNull(d) && Object.prototype.hasOwnProperty.call(d, 'x') ? d.x : i,
@@ -120,6 +121,14 @@ export function Chrt(_data = [], _node) {
     this.objects.forEach(obj => obj.update());
     return this;
   };
+
+  this.getAxis = (name, orientation) => {
+    return this.objects.find(obj => obj.type === 'axis' && obj.name === name && (!orientation || obj.orientation === orientation));
+  }
+
+  this.css = () => {
+    this._css = true;
+  }
 }
 
 function chrt(data, node) {
