@@ -49,16 +49,16 @@ export default function logTicks(
     // console.log('CALCULATING TICKS', dmin, dmax, this.ticksNumber)
     this._ticks = [];
 
-    // this.range = this.nicenum(dmax - dmin, false);
-    // this.lstep = this.nicenum(this.range / (this.ticksNumber - 1), true);
-    // this.lmin = Math.floor(dmin / this.lstep) * this.lstep;
-    // this.lmax = Math.ceil(dmax / this.lstep) * this.lstep;
     this.range = this.improveRange([dmin, dmax]);
 
-    this.lmin = pow(Math.floor(log(dmin)) - 1);
-    this.lmax = pow(Math.floor(log(dmax)) + 1);
+    // not working well, it keeps lowering and increasing bounds
+    this.lmin = Math.floor(log(dmin)) !== log(dmin) ? pow(Math.floor(log(dmin)) - 1) : dmin;
+    this.lmax = Math.floor(log(dmax)) !== log(dmax) ? pow(Math.floor(log(dmax)) + 1) : dmax;
 
-    // console.log('TICKS', n, [dmin, dmax], this.range, [this.lmin, this.lmax]);
+    // this.lmin = this.range[0];
+    // this.lmax = this.range[1];
+
+    console.log('TICKS', n, [dmin, dmax], this.range, [this.lmin, this.lmax]);
 
     const ticksRange = [log(this.lmin), log(this.lmax)];
 

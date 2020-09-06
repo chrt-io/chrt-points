@@ -11,7 +11,7 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
   range[1] -= name === 'x' ? this._padding.right : -this._padding.top;
   // console.log(name,'RANGE',range)
 
-  const currentDomain = this.scales[name] ? this.scales[name].domain : [];
+  const currentDomain = (this.scales[name] && !this.scales[name].isLog())? this.scales[name].domain : [];
   let domainExtent = domain || currentDomain;
   // console.log('DOMAIN EXTENT', name, domainExtent, domain, this.scales[name])
   if (arguments.length === 1) {

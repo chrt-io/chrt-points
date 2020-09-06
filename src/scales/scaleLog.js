@@ -3,8 +3,8 @@ import { baseLog } from '~/helpers/math';
 import { memoize } from '~/util';
 
 export default function scale(name, domain, range, transformation = 'log10') {
-  // console.log('LOG SCALE', name, this);
-
+  console.log('LOG SCALE', name, domain, range, transformation);
+  console.log('this.scales[',name,'].domain','=',this.scales[name].domain, 'isLog?',this.scales[name].isLog())
   const log = baseLog();
 
   let _ticks = [];
@@ -12,25 +12,28 @@ export default function scale(name, domain, range, transformation = 'log10') {
   range[0] += (name === 'x' ? this._padding.left : -this._padding.bottom);
   range[1] -= (name === 'x' ? this._padding.right : -this._padding.top);
   // console.log(name,'RANGE',range)
-  
-  const currentDomain = this.scales[name] ? this.scales[name].domain : [];
+
+  const currentDomain = (this.scales[name] && this.scales[name].isLog()) ? this.scales[name].domain : [];
+  console.log('currentDomain', currentDomain)
   let domainExtent = domain || currentDomain;
+  console.log('using domainExtent', domainExtent[0], domainExtent[1]);
   if (arguments.length === 1) {
     return this.scales[arguments[0]];
   }
   if(!domainExtent.length || (domainExtent[0] !== currentDomain[0] || domainExtent[1] !== currentDomain[1])) {
-    domainExtent = [];
-    this._data.forEach(d => {
+    // domainExtent = [];
+    this._data.filter(d => d[name] > 0).forEach(d => {
       domainExtent[0] =
         domainExtent[0] == null ? d[name] : Math.min(d[name], domainExtent[0]);
       domainExtent[1] =
         domainExtent[1] == null ? d[name] : Math.max(d[name], domainExtent[1]);
     });
+    console.log('1 domainExtent ->', domainExtent[0], domainExtent[1])
     // console.log('NEED TO CHECK FOR objects', this.objects)
     this.objects.forEach(obj => {
       // console.log('setting domain', obj.id())
       if(obj._data) {
-        obj._data.forEach(d => {
+        obj._data.filter(d => d[name] > 0).forEach(d => {
           domainExtent[0] =
             domainExtent[0] == null ? d[name] : Math.min(d[name], domainExtent[0]);
           domainExtent[1] =
@@ -38,6 +41,7 @@ export default function scale(name, domain, range, transformation = 'log10') {
         });
       }
     })
+    console.log('2 domainExtent ->', domainExtent[0], domainExtent[1])
   }
 
   const numScale = new logTicks(domainExtent);
@@ -45,6 +49,8 @@ export default function scale(name, domain, range, transformation = 'log10') {
   // re-assign domain based on max/min of logTicks nice scale
   domainExtent[0] = numScale.getMin();
   domainExtent[1] = numScale.getMax();
+
+  console.log('NEW domain extent', domainExtent[0], domainExtent[1])
 
   const domainWidth = log(domainExtent[1]) - log(domainExtent[0]);
   const direction = (range[1] >= range[0] ? 1 : -1);

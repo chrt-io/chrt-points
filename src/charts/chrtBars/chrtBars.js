@@ -20,19 +20,21 @@ function chrtBars() {
   this.fillColor = DEAULT_FILL_COLOR;
 
   this.draw = () => {
+    const { _margins, scales } = this.parentNode;
+
     if(!isNull(this._data)) {
       this.barWidth = this._data.reduce((acc, d, i, arr) => {
         const next = arr[i + 1];
         if(!isNull(d) && !isNull(d[this.fields.x]) && !isNull(next) && !isNull(next[this.fields.x])) {
-          const x1 = this.parentNode.scales['x'](d[this.fields.x]);
-          const x2 = this.parentNode.scales['x'](next[this.fields.x]);
+          const x1 = scales['x'](d[this.fields.x]);
+          const x2 = scales['x'](next[this.fields.x]);
           const delta = Math.abs(x2 - x1);
           acc = delta < acc ? delta : acc;
         }
         return acc;
-      }, this.parentNode.scales['x'].barwidth);
-
-      this.barWidth = Math.floor(this.barWidth) * this.barRatioWidth;
+      }, scales['x'].barwidth);
+      const flooredBarWidth = Math.floor(this.barWidth);
+      this.barWidth = (flooredBarWidth || this.barWidth) * this.barRatioWidth;
 
       const xAxis = this.parentNode.getAxis('x');
       const axisLineWidth = xAxis ? xAxis.width() : 0;
@@ -45,9 +47,10 @@ function chrtBars() {
           rect.setAttribute('data-id', `rect-${name}-${i}`);
           this.g.appendChild(rect);
         }
-        const x = this.parentNode.scales['x'](d[this.fields.x]) - this.barWidth / 2;
-        const y = this.parentNode.scales['y'](d[this.fields.y]);
-        const y0 = this.parentNode.scales['y'](0);
+        const x = scales['x'](d[this.fields.x]) - this.barWidth / 2;
+        const y = scales['y'](d[this.fields.y]);
+        // const y0 = scales['y'](0);
+        const y0 = scales['y'].isLog() ? (scales['y'].range[0] - _margins.bottom) : scales['y'](0);
         rect.setAttribute('x', x);
         rect.setAttribute('y', y > y0 ? y0 : y);
         rect.setAttribute('width', this.barWidth);

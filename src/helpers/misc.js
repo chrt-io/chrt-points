@@ -17,3 +17,7 @@ export function uuid() {
 export function hasData(obj) {
   return !isNull(obj.type) && COMPONENTS_W_DATA.indexOf(obj.type) > -1
 }
+
+export function isInfinity(value) {
+  return !isFinite(value);
+}

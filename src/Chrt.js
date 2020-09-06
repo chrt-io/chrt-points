@@ -56,7 +56,7 @@ export function Chrt(_data = [], _node) {
   this.scaleLog = (name, domain, range, transformation = 'log10') => {
     scaleLog.apply(this, [
       name,
-      this._data.length ? domain : [0, 10],
+      this._data.length ? domain : [1, 10],
       range,
       transformation
     ]);
