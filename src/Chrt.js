@@ -19,7 +19,6 @@ export function Chrt(_data = [], _node) {
   this._orginalData = this._data;
   this.root = _node;
   this.currentNode = _node;
-  this._css = false;
 
   this._accessor = (d, i) => ({
     x: !isNull(d) && Object.prototype.hasOwnProperty.call(d, 'x') ? d.x : i,
@@ -126,8 +125,14 @@ export function Chrt(_data = [], _node) {
     return this.objects.find(obj => obj.type === 'axis' && obj.name === name && (!orientation || obj.orientation === orientation));
   }
 
-  this.css = () => {
-    this._css = true;
+  this.css = (prefix) => {
+    if(!isNull(prefix) && typeof prefix !== 'string') {
+      console.warn('CSS prefix should be a string. Setting main class name to \'chrt\'.');
+      prefix = null;
+    }
+    this._css = `${prefix ? prefix.replace(/-$/,'') : ''}${prefix ? '-' : ''}chrt`;
+    this.root.classList.add(this._css);
+    return this;
   }
 }
 
