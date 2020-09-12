@@ -5,7 +5,7 @@ export default function ExtendedWilkinson(
   Q = [1, 5, 2, 2.5, 4, 3],
   onlyLoose = false,
   w = [0.25, 0.2, 0.5, 0.05],
-  nice = true
+  nice = false,
 ) {
   const eps = Number.EPSILON * 100;
   this._ticks = [];
