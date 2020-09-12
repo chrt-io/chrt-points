@@ -13,7 +13,9 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
 
   const currentDomain = (this.scales[name] && !this.scales[name].isLog())? this.scales[name].domain : [];
   let domainExtent = domain || currentDomain;
-  // console.log('DOMAIN EXTENT', name, domainExtent, domain, this.scales[name])
+
+  // console.log('DOMAIN', name, [...domainExtent], this.scales[name])
+
   if (arguments.length === 1) {
     return this.scales[arguments[0]];
   }
@@ -46,15 +48,20 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
     }
   });
 
-  //// console.log('DOMAIN', name, domainExtent)
+  // console.log('DOMAIN AFTER IMPROVEMENT', name, [...domainExtent])
 
   // const numScale = new Heckbert(domainExtent);
   const eNumScale = new ExtendedWilkinson(domainExtent);
   // console.log('E WILK', eNumScale.ticks())
   // re-assign domain based on, max/min of heckbert nice scale
   //// console.log(domainExtent[0],domainExtent[1],'after WILKINSON', eNumScale.getMin(), eNumScale.getMax())
-  domainExtent[0] = eNumScale.getMin();
-  domainExtent[1] = eNumScale.getMax();
+  if(!currentDomain) {
+    domainExtent[0] = eNumScale.getMin();
+    domainExtent[1] = eNumScale.getMax();
+  }
+
+
+  // console.log('AFTER WILK DOMAIN',  name, [...domainExtent])
 
   const domainWidth = domainExtent[1] - domainExtent[0];
   const direction = range[1] >= range[0] ? 1 : -1;
