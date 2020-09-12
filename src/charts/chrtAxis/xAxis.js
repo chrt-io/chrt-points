@@ -24,6 +24,7 @@ function xAxis(ticksNumber = TICKS_DEFAULT) {
     label.setAttribute('text-anchor', 'middle');
     label.setAttribute('y', this.tickLength * orientation);
     label.setAttribute('dy', `${orientation > 0 ? 1 : -0.2}em`);
+    label.setAttribute('fill', this.stroke);
   };
 
   this.draw = () => {

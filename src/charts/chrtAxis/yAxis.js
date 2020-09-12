@@ -44,6 +44,7 @@ function yAxis(ticksNumber = TICKS_DEFAULT) {
       'dy',
       this.tickPosition === 'outside' ? '0.25em' : '-0.3em'
     );
+    label.setAttribute('fill', this.stroke);
   };
 
   this.draw = () => {
