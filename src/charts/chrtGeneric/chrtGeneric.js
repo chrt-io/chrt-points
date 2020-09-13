@@ -1,10 +1,11 @@
 import { hasData, isNull } from '~/helpers';
-import { accessor, render, update, curve } from '../util';
+import { accessor, render, update, curve, add } from '../util';
 import { data, node, parent } from '~/util';
 import { linearInterpolation } from '~/curves';
 
 export default function chrtGeneric() {
   this._id = null;
+  this.objects = [];
   this.fields = {
     x: 'x',
     y: 'y',
@@ -67,6 +68,7 @@ function chrt() {
 chrtGeneric.prototype = chrt.prototype = {
   data,
   node,
+  add,
   parent,
   accessor,
   render,
