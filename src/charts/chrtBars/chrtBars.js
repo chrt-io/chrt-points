@@ -21,9 +21,9 @@ function chrtBars() {
 
   this.draw = () => {
     const { _margins, scales } = this.parentNode;
-
-    if(!isNull(this._data)) {
-      this.barWidth = this._data.reduce((acc, d, i, arr) => {
+    const _data = this._data.length ? this._data : this.parentNode._data;
+    if(!isNull(_data)) {
+      this.barWidth = _data.reduce((acc, d, i, arr) => {
         const next = arr[i + 1];
         if(!isNull(d) && !isNull(d[this.fields.x]) && !isNull(next) && !isNull(next[this.fields.x])) {
           const x1 = scales['x'](d[this.fields.x]);
@@ -39,7 +39,7 @@ function chrtBars() {
       const xAxis = this.parentNode.getAxis('x');
       const axisLineWidth = xAxis ? xAxis.width() : 0;
 
-      this._data.forEach((d, i) => {
+      _data.forEach((d, i) => {
         // const point = points.find(p => )
         let rect = this.g.querySelector(`[data-id='rect-${name}-${i}']`);
         if (!rect) {
