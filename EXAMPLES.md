@@ -19,6 +19,9 @@ import Chrt from "chrt";
 
 const chart = new Chrt();
 
+const WIDTH = 600;
+const HEIGHT = 300;
+
 chart
   .node(document.getElementById("root"))
   .size(WIDTH, HEIGHT)
@@ -37,9 +40,12 @@ import {
 } from "chrt";
 
 const samplesWithNumbers = [];
-for (let i = 0; i < 100;  += 1) {
+for (let i = 0; i < 100; i += 1) {
   samplesWithNumbers[i] = Math.random() * 100;
 }
+
+const WIDTH = 600;
+const HEIGHT = 300;
 
 const chart = new Chrt();
 
@@ -63,9 +69,12 @@ import {
 } from "chrt";
 
 const samplesWithNumbers = [];
-for (let i = 0; i < 100;  += 1) {
+for (let i = 0; i < 100; i += 1) {
   samplesWithNumbers[i] = Math.random() * 100;
 }
+
+const WIDTH = 600;
+const HEIGHT = 300;
 
 const chart = new Chrt();
 
@@ -91,8 +100,11 @@ import {
   chrtLine
 } from "chrt";
 
+const WIDTH = 600;
+const HEIGHT = 300;
+
 const samplesWithNumbers = [];
-for (let i = 0; i < 100;  += 1) {
+for (let i = 0; i < 100; i += 1) {
   samplesWithNumbers[i] = Math.random() * 100;
 }
 
@@ -122,8 +134,11 @@ import {
   chrtLine
 } from "chrt";
 
+const WIDTH = 600;
+const HEIGHT = 300;
+
 const samplesWithNumbers = [];
-for (let i = 0; i < 100;  += 1) {
+for (let i = 0; i < 100; i += 1) {
   samplesWithNumbers[i] = Math.random() * 100;
 }
 
@@ -181,8 +196,11 @@ import {
   chrtLine
 } from "chrt";
 
+const WIDTH = 600;
+const HEIGHT = 300;
+
 const samplesWithNumbers = [];
-for (let i = 0; i < 100;  += 1) {
+for (let i = 0; i < 100; i += 1) {
   samplesWithNumbers[i] = Math.random() * 100;
 }
 
@@ -241,8 +259,11 @@ import {
   chrtLine
 } from "chrt";
 
+const WIDTH = 600;
+const HEIGHT = 300;
+
 const samplesWithObjects = [];
-for (let i = 0; i < 100;  += 1) {
+for (let i = 0; i < 100; i += 1) {
   samplesWithObjects[i] = {
     x: i,
     y: Math.random() * 100,
@@ -306,13 +327,16 @@ import {
 } from "chrt";
 
 const samplesWithObjects = [];
-for (let i = 0; i < 100;  += 1) {
+for (let i = 0; i < 100; i += 1) {
   samplesWithObjects[i] = {
     x: i,
     y: Math.random() * 100,
     y2: -0.5 * Math.random() * 100,
   };
 }
+
+const WIDTH = 600;
+const HEIGHT = 300;
 
 const chart = new Chrt();
 
@@ -360,5 +384,111 @@ chart
       .color("#fff")
       .width(3)
       .strokeColor("#333")
+  )
+```
+
+### Add  markers to a line chart
+By using the `.add()` method of the `chrtGeneric` components, it is possible to add modules to visualize more information specific to a single chart component, for example markers or labels.
+
+![Screenshot_2020-09-13_at_11.25.06_am](/uploads/8e8325a9d4ffc255e90e4a1c78ff3bf5/Screenshot_2020-09-13_at_11.25.06_am.png)
+
+```
+import Chrt from "chrt";
+import {
+  xAxis,
+  yAxis,
+  horizontalGrid,
+  verticalGrid,
+  chrtLine,
+  chrtMarkers,
+} from "chrt";
+
+const WIDTH = 600;
+const HEIGHT = 300;
+
+const samplesWithNumbers = [];
+for (let i = 0; i < 20; i += 1) {
+  samplesWithNumbers[i] = Math.random() * 10;
+}
+
+const chart = new Chrt();
+
+chart
+  .node(document.getElementById("root"))
+  .data(samplesWithNumbers)
+  .size(WIDTH, HEIGHT)
+  .svg()
+  .add(new yAxis())
+  .add(new chrtLine().add(new chrtMarkers()))
+```
+
+### Show only first and last markers
+
+![Screenshot_2020-09-13_at_11.34.06_am](/uploads/668f524c55168f2a025e9ee8c0d2eb63/Screenshot_2020-09-13_at_11.34.06_am.png)
+
+```
+import Chrt from "chrt";
+import {
+  xAxis,
+  yAxis,
+  horizontalGrid,
+  verticalGrid,
+  chrtLine,
+  chrtMarkers,
+} from "chrt";
+
+const WIDTH = 600;
+const HEIGHT = 300;
+
+const samplesWithNumbers = [];
+for (let i = 0; i < 20; i += 1) {
+  samplesWithNumbers[i] = Math.random() * 10;
+}
+
+const chart = new Chrt();
+
+chart
+  .node(document.getElementById("root"))
+  .data(samplesWithNumbers)
+  .size(WIDTH, HEIGHT)
+  .svg()
+  .add(new yAxis())
+  .add(new chrtLine().add(new chrtMarkers().firstAndLastMarkers()))
+```
+
+### Paint first and last markers with different color/size
+
+![Screenshot_2020-09-13_at_11.28.19_am](/uploads/8e1c1220405761d38b4810d2602debda/Screenshot_2020-09-13_at_11.28.19_am.png)
+
+```
+import Chrt from "chrt";
+import {
+  xAxis,
+  yAxis,
+  horizontalGrid,
+  verticalGrid,
+  chrtLine,
+  chrtMarkers,
+} from "chrt";
+
+const WIDTH = 600;
+const HEIGHT = 300;
+
+const samplesWithNumbers = [];
+for (let i = 0; i < 20; i += 1) {
+  samplesWithNumbers[i] = Math.random() * 10;
+}
+
+const chart = new Chrt();
+
+chart
+  .node(document.getElementById("root"))
+  .data(samplesWithNumbers)
+  .size(WIDTH, HEIGHT)
+  .svg()
+  .add(new yAxis())
+  .add(new chrtLine()
+    .add(new chrtMarkers().firstMarker().size(8))
+    .add(new chrtMarkers().lastMarker().fill('#f00').size(12))
   )
 ```

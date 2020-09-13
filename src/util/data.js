@@ -3,8 +3,9 @@ import {hasData} from '~/helpers';
 export default function (data, accessor) {
   // console.log('----> data', data);
   if (!data) {
-    return this._data;
+    return hasData(this) ? this._data : this;
   }
+  // TODO: not sure what this is doing...
   if(!hasData(this)) {
     return this;
   }

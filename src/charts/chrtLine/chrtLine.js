@@ -35,6 +35,7 @@ function chrtLine() {
                 (isNull(points[i + 1]) || isNull(points[i + 1][this.fields.y]));
       });
 
+      // TODO: if the data changes and new single points are added they won't be rendered
       if (!this.points) {
         this.points = [];
         singlePoints.forEach((point) => {
@@ -46,13 +47,14 @@ function chrtLine() {
           this.g.appendChild(circle);
         });
       }
-
       this.points.forEach(d => {
         d.circle.setAttribute('cx', this.parentNode.scales['x'](d.point[this.fields.x]));
         d.circle.setAttribute('cy', this.parentNode.scales['y'](d.point[this.fields.y]));
         d.circle.setAttribute('fill', this.stroke);
         d.circle.setAttribute('r', this.strokeWidth);
       })
+
+      this.objects.forEach(obj => obj.draw())
     }
 
     return this.parentNode;
@@ -65,7 +67,7 @@ chrtLine.parent = chrtGeneric.prototype;
 
 chrtLine.prototype = Object.assign(chrtLine.prototype, {
   width: lineWidth,
-  color: lineColor
+  color: lineColor,
 });
 
 export default chrtLine;
