@@ -5,6 +5,13 @@ import { memoize } from '~/util';
 import ExtendedWilkinson from './util/ExtendedWilkinson';
 
 export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
+  console.log(`scale(${name}, ${domain}, range = ${[0, DEFAULT_WIDTH]})`)
+
+  const fixedDomain = domain || (this.scales[name] ? this.scales[name].fixedDomain : null);
+
+  if(!domain) {
+    domain = [0, 1];
+  }
   let _ticks = [];
   // console.log('rrrrange', range)
   range[0] += name === 'x' ? this._padding.left : -this._padding.bottom;
@@ -12,17 +19,21 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
   // console.log(name,'RANGE',range)
 
   const currentDomain = (this.scales[name] && !this.scales[name].isLog())? this.scales[name].domain : [];
-  let domainExtent = domain || currentDomain;
+  let domainExtent = fixedDomain || domain || currentDomain;
 
-  // console.log('DOMAIN', name, [...domainExtent], this.scales[name])
 
+
+  console.log('DOMAIN', name, [...domainExtent], this.scales[name])
+  console.log('FIXED DOMAIN', name, fixedDomain)
+  console.log('CURRENT DOMAIN', name, currentDomain);
   if (arguments.length === 1) {
     return this.scales[arguments[0]];
   }
 
   // if no domain defined or new domain is different from current domain
   // calculate the new domain based on all the data
-  if(!domainExtent.length || (domainExtent[0] !== currentDomain[0] || domainExtent[1] !== currentDomain[1])) {
+  if(!fixedDomain || (!domainExtent.length || (domainExtent[0] !== currentDomain[0] || domainExtent[1] !== currentDomain[1]))) {
+    console.log('CALCULATE DOMAIN BASED ON THE DATA', name)
     this._data.forEach(d => {
       // console.log(name, domainExtent[0],d[name],domainExtent[1])
       domainExtent[0] =
@@ -30,6 +41,8 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
       domainExtent[1] =
         domainExtent[1] == null ? d[name] : Math.max(d[name], domainExtent[1]);
     });
+
+    console.log('DOMAIN EXTENT', name, domainExtent)
   }
   // console.log('NEED TO CHECK FOR objects', this.objects)
   this.objects.forEach(obj => {
@@ -108,6 +121,7 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
   scalingFunction.getName = getName;
   scalingFunction.getTransformation = getTransformation;
   scalingFunction.isLog = () => false;
+  scalingFunction.fixedDomain = fixedDomain;
   scalingFunction.domain = domainExtent;
   scalingFunction.range = range;
   scalingFunction.step = eNumScale.getStep();

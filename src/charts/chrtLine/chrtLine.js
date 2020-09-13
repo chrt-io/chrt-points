@@ -14,20 +14,25 @@ function chrtLine() {
   this.stroke = DEAULT_LINE_COLOR;
 
   this.draw = () => {
-    if (!isNull(this._data)) {
+    const _data = this._data.length ? this._data : this.parentNode._data;
+    console.log('this.draw', _data)
+    if (!isNull(_data)) {
       if (!this.path) {
         this.path = create('path');
         this.g.appendChild(this.path);
       }
 
-      const d = this.interpolationFunction(this._data);
+
+
+      const d = this.interpolationFunction(_data);
+      console.log('NEW PATH', d)
       this.path.setAttribute('d', d.join(''));
       this.path.setAttribute('fill', 'none');
       this.path.setAttribute('stroke', this.stroke);
       this.path.setAttribute('stroke-width', this.strokeWidth);
       this.path.setAttribute('stroke-linejoin', 'round');
 
-      const singlePoints = this._data.filter((d, i, points) => {
+      const singlePoints = _data.filter((d, i, points) => {
         return (isNull(points[i - 1]) || isNull(points[i - 1][this.fields.y]))
                 &&
                 !isNull(d[this.fields.y])
@@ -53,9 +58,9 @@ function chrtLine() {
         d.circle.setAttribute('fill', this.stroke);
         d.circle.setAttribute('r', this.strokeWidth);
       })
-
-      this.objects.forEach(obj => obj.draw())
     }
+
+    this.objects.forEach(obj => obj.draw())
 
     return this.parentNode;
   };

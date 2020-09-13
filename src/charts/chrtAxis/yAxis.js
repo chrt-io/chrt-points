@@ -87,6 +87,15 @@ function yAxis(ticksNumber = TICKS_DEFAULT) {
     }
 
     const isLog = scales[name].isLog();
+    this.g.querySelectorAll('g').forEach(d => {
+      const tickName = d.getAttribute('data-id');
+
+      const tick = ticks.find(tick => tickName === `tick-${name}-${tick}`);
+
+      if(!tick) {
+        d.remove();
+      }
+    })
     generateTicks.call(this, ticks, name, (tickGroup, tick) => {
       const position = scales[name](tick.value);
       tickGroup.setAttribute('transform', `translate(0, ${position})`);

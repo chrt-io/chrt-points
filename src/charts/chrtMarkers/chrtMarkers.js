@@ -26,8 +26,10 @@ function chrtMarkers() {
   this.markersFilter = () => true;
 
   this.draw = () => {
-    // console.log('DRAW MARKERS', this.parentNode.data());
-
+    console.log('DRAW MARKERS', this.parentNode.data(), this.parentNode.parentNode._data);
+    const parentData = this.parentNode.data();
+    // this might be broken when only local data to the component is updated - to be tested
+    const data= parentData.length ? parentData : (this.parentNode.parentNode._data || []);
     const radius = this._radius || DEFAULT_RADIUS;
     const fill = this._fill || this.parentNode.stroke || DEFAULT_FILL_COLOR;
     const stroke = this.stroke || this.parentNode.stroke || DEFAULT_STROKE;
@@ -39,7 +41,7 @@ function chrtMarkers() {
       this.parentNode.g.appendChild(this.g);
     }
 
-    this.parentNode.data().forEach((marker, i) => {
+    data.forEach((marker, i) => {
       if (this.markers[i]) {
         // if the marker exists, just update its data
         this.markers[i].marker = marker;

@@ -66,8 +66,8 @@ function chrt() {
 }
 
 chrtGeneric.prototype = chrt.prototype = {
-  data,
   node,
+  data,
   add,
   parent,
   accessor,

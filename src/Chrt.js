@@ -46,7 +46,7 @@ export function Chrt(_data = [], _node) {
   this.scaleLinear = (name, domain, range) => {
     scaleLinear.apply(this, [
       name,
-      this._data.length ? domain : [0, 10],
+      domain, // || (this._data.length ? domain : null), // [0, 10] -> this messes up with the later assignement of data
       range
     ]);
     this.objects.forEach(obj => obj.update());
@@ -111,6 +111,7 @@ export function Chrt(_data = [], _node) {
   };
 
   this.update = () => {
+    console.log('UPDATE',this._data)
     this.x();
     this.y(
       null,
