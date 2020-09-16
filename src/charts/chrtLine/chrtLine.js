@@ -25,7 +25,6 @@ function chrtLine() {
 
 
       const d = this.interpolationFunction(_data);
-      console.log('NEW PATH', d)
       this.path.setAttribute('d', d.join(''));
       this.path.setAttribute('fill', 'none');
       this.path.setAttribute('stroke', this.stroke);

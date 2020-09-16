@@ -10,7 +10,7 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
   const fixedDomain = domain || (this.scales[name] ? this.scales[name].fixedDomain : null);
 
   if(!domain) {
-    domain = [0, 1];
+    //domain = [0, 1]; // not sure anymore about this
   }
   let _ticks = [];
   // console.log('rrrrange', range)
