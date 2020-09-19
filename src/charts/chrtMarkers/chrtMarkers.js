@@ -15,7 +15,9 @@ import { createSVG as create } from '~/layout';
 const DEFAULT_RADIUS = 2;
 const DEFAULT_FILL_COLOR = '#000';
 const DEFAULT_STROKE = '#000';
+const DEFAULT_STROKE_OPACITY = 1;
 const DEFAULT_STROKE_WIDTH = 1;
+const DEFAULT_FILL_OPACITY = 1;
 
 function chrtMarkers() {
   chrtGeneric.call(this);
@@ -27,14 +29,17 @@ function chrtMarkers() {
 
   this.draw = () => {
     console.log('DRAW MARKERS', this.parentNode.data(), this.parentNode.parentNode._data);
+    console.log(this)
     const parentData = this.parentNode.data();
     // this might be broken when only local data to the component is updated - to be tested
     const data= parentData.length ? parentData : (this.parentNode.parentNode._data || []);
     const radius = this._radius || DEFAULT_RADIUS;
     const fill = this._fill || this.parentNode.stroke || DEFAULT_FILL_COLOR;
-    const stroke = this.stroke || this.parentNode.stroke || DEFAULT_STROKE;
+    const opacity = this._opacity || this.parentNode.strokeOpacity || DEFAULT_FILL_OPACITY;
+    const stroke = this._stroke || this.parentNode.stroke || DEFAULT_STROKE;
+    const strokeOpacity = this._strokeOpacity || this.parentNode.strokeOpacity || DEFAULT_STROKE_OPACITY;
     const strokeWidth =
-      this.strokeWidth || this.parentNode.strokeWidth || DEFAULT_STROKE_WIDTH;
+      this._strokeWidth || this.parentNode.strokeWidth || DEFAULT_STROKE_WIDTH;
 
     if (!this.g) {
       this.g = create('g');
@@ -72,9 +77,11 @@ function chrtMarkers() {
           )
         );
         d.circle.setAttribute('fill', fill);
+        d.circle.setAttribute('fill-opacity', opacity);
         d.circle.setAttribute('r', radius);
         d.circle.setAttribute('stroke', stroke);
         d.circle.setAttribute('stroke-width', strokeWidth);
+        d.circle.setAttribute('stroke-opacity', strokeOpacity);
       });
 
     return this.parentNode;

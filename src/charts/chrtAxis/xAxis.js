@@ -37,7 +37,7 @@ function xAxis(ticksNumber = TICKS_DEFAULT) {
     // console.log('X AXIS TICKS NUMBER', ticksNumber)
     const ticks = scales[name]
       .ticks(ticksNumber * 2)
-      .filter((tick, i, arr) => this.ticksFilter(tick.value, i, arr));
+      .filter((tick, i, arr) => this.ticksFilter ? this.ticksFilter(tick.value, i, arr) : true);
 
     this.g.setAttribute('id', `${name}Axis-${this.id()}`);
     const axisY =
@@ -77,7 +77,7 @@ function xAxis(ticksNumber = TICKS_DEFAULT) {
         d.remove();
       }
     })
-    generateTicks.call(this, ticks, name, (tickGroup, tick) => {
+    generateTicks.call(this, ticks, name, (tickGroup, tick, i, arr) => {
       const position = scales[name](tick.value);
       tickGroup.setAttribute('transform', `translate(${position}, 0)`);
       let visible =

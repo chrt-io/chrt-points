@@ -5,6 +5,7 @@ import lineWidth from './lib/lineWidth';
 import lineColor from './lib/lineColor';
 import lineStyle from './lib/lineStyle';
 import minor from './lib/minor';
+import {showTicks} from '../chrtAxis/lib';
 import chrtGeneric from '../chrtGeneric';
 import {
   firstTick,
@@ -23,7 +24,7 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
   this.strokeWidth = DEFAULT_LINE_WIDTH;
   this.stroke = DEAULT_LINE_COLOR;
   this.showMinorTicks = false;
-  this.ticksFilter = () => true;
+  this.ticksFilter = null;
 
   const verticalGridLine = (gridLine, position, y1, y2, visible = true) => {
     gridLine.style.display = visible ? 'block' : 'none';
@@ -52,13 +53,14 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
       //ticksNumber * (this.showMinorTicks ? 2 : 1)
       ticksNumber * 2
     )
-    .filter((tick, i, arr) => this.ticksFilter(tick.value, i, arr));
+    // .filter((tick, i, arr) => this.ticksFilter(tick.value, i, arr));
+    .filter((tick, i, arr) => this.ticksFilter ? this.ticksFilter(tick.value, i, arr) : true);
 
     // console.log('got this ticks', name, ticksNumber, ticks);
     this.g.setAttribute('id', `${name}Grid-${this.id()}`);
     this.g.querySelectorAll('line').forEach(gridLine => gridLine.setAttribute('toBeHidden', true));
 
-    ticks.forEach((tick) => {
+    ticks.forEach((tick, i, arr) => {
       let gridLine = this.g.querySelector(
         `[data-id='gridLine-${name}-${tick.value}']`
       );
@@ -96,8 +98,15 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
       }
       if (name === 'y') {
         const isLog = this.parentNode.scales[name].isLog();
-        const visible =
-          this.showMinorTicks || (!isLog && !tick.isMinor) || (isLog && !tick.isMinor); // TODO: improve this check
+        let visible =
+          position >= _margins.top && position <= height - _margins.bottom;
+        visible = visible && (this.showMinorTicks || (tick.isZero && this.showZero) || !tick.isMinor);
+        visible = visible && ((!isLog) || (isLog && !tick.isMinor));
+
+        if(this.ticksFilter) {
+          visible = this.ticksFilter(tick.value, i, arr);
+        }
+
         horizontalGridLine(
           gridLine,
           position,
@@ -124,7 +133,8 @@ chrtGrid.prototype = Object.assign(chrtGrid.prototype, {
   color: lineColor,
   minor,
   firstTick,
-  lastTick
+  lastTick,
+  filter: showTicks,
 });
 
 export default chrtGrid;

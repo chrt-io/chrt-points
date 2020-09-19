@@ -24,11 +24,11 @@ export default function (data, accessor) {
   // define accessor function to map values
   const accessorFunction = accessor || this._accessor;
   this._accessor = accessorFunction;
-  this._data = accessorFunction ? data.map((d, i) => {
+  this._data = accessorFunction ? data.map((d, i, arr) => {
     if(d instanceof Object) {
-      return Object.assign({}, d, accessorFunction(d, i));
+      return Object.assign({}, d, accessorFunction(d, i, arr));
     }
-    return accessorFunction(d, i);
+    return accessorFunction(d, i, arr);
   }) : data;
 
   // if(typeof this.id !== 'undefined') {

@@ -1,10 +1,11 @@
 import { isNull } from '~/helpers';
 import { createSVG as create } from '~/layout';
-import { lineWidth, lineColor } from './lib';
+import { lineWidth, lineColor, lineOpacity } from './lib';
 import chrtGeneric from '../chrtGeneric';
 
 const DEFAULT_LINE_WIDTH = 1;
 const DEAULT_LINE_COLOR = '#000';
+const DEFAULT_LINE_OPACITY = 1;
 
 function chrtLine() {
   chrtGeneric.call(this);
@@ -12,6 +13,7 @@ function chrtLine() {
 
   this.strokeWidth = DEFAULT_LINE_WIDTH;
   this.stroke = DEAULT_LINE_COLOR;
+  this.strokeOpacity = DEFAULT_LINE_OPACITY;
 
   this.draw = () => {
     const _data = this._data.length ? this._data : this.parentNode._data;
@@ -29,6 +31,7 @@ function chrtLine() {
       this.path.setAttribute('fill', 'none');
       this.path.setAttribute('stroke', this.stroke);
       this.path.setAttribute('stroke-width', this.strokeWidth);
+      this.path.setAttribute('stroke-opacity', this.strokeOpacity);
       this.path.setAttribute('stroke-linejoin', 'round');
 
       const singlePoints = _data.filter((d, i, points) => {
@@ -72,6 +75,7 @@ chrtLine.parent = chrtGeneric.prototype;
 chrtLine.prototype = Object.assign(chrtLine.prototype, {
   width: lineWidth,
   color: lineColor,
+  opacity: lineOpacity,
 });
 
 export default chrtLine;

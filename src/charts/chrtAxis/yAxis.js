@@ -61,8 +61,8 @@ function yAxis(ticksNumber = TICKS_DEFAULT) {
     const ticks = scales[name]
       //.ticks(ticksNumber * (this.showMinorTicks ? 2 : 1))
       .ticks(ticksNumber * 2)
-      .filter((tick, i, arr) => this.ticksFilter(tick.value, i, arr));
-
+      .filter((tick, i, arr) => this.ticksFilter ? this.ticksFilter(tick.value, i, arr) : true);
+    console.log('Y AXIS TICKS', ticks)
     let axisLine = this.g.querySelector(`[data-id='tick-${name}-axis-line']`);
     if (!axisLine) {
       axisLine = create('line');
@@ -96,13 +96,18 @@ function yAxis(ticksNumber = TICKS_DEFAULT) {
         d.remove();
       }
     })
-    generateTicks.call(this, ticks, name, (tickGroup, tick) => {
+    generateTicks.call(this, ticks, name, (tickGroup, tick, i, arr) => {
       const position = scales[name](tick.value);
       tickGroup.setAttribute('transform', `translate(0, ${position})`);
       let visible =
         position >= _margins.top && position <= height - _margins.bottom;
-      visible = visible && (this.showMinorTicks || !tick.isMinor);
+      visible = visible && (this.showMinorTicks || (tick.isZero && this.showZero) || !tick.isMinor);
       visible = visible && ((!isLog) || (isLog && !tick.isMinor));
+
+      if(this.ticksFilter) {
+        visible = this.ticksFilter(tick.value, i, arr);
+      }
+
       yAxisTick(tickGroup, visible);
     });
 

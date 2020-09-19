@@ -28,7 +28,7 @@ export default function generateTicks(ticks,name,callback) {
       tickGroup.appendChild(label);
     }
     if(callback) {
-      callback.call(null, tickGroup, tick);
+      callback.call(null, tickGroup, tick, i, arr);
     }
   });
 }

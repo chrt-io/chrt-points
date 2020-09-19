@@ -16,6 +16,7 @@ import {
   orient,
   format,
   minor,
+  zero,
   label,
 } from './lib';
 import chrtGeneric from '../chrtGeneric';
@@ -36,12 +37,13 @@ function chrtAxis(name) {
   this.stroke = DEAULT_LINE_COLOR;
   this.tickTextColor = DEAULT_TICK_TEXT_COLOR;
   this.showAxisLine = true;
-  this.ticksFilter = () => true;
+  this.ticksFilter = null;
   this.tickLength = TICK_LENGTH;
   this.tickPosition = TICK_POSITION;
   this.orientation = DEFAULT_ORIENTATION[name];
   this.labelFormat = d => d;
   this.showMinorTicks = false;
+  this.showZero = true;
   this._label = null;
 
   this.draw = () => {
@@ -63,6 +65,7 @@ chrtAxis.prototype = Object.assign(chrtAxis.prototype, {
   setTickPosition,
   showAxis,
   hideAxis,
+  filter: showTicks,
   showTicks,
   hideTicks,
   firstTick,
@@ -71,6 +74,7 @@ chrtAxis.prototype = Object.assign(chrtAxis.prototype, {
   orient,
   format,
   minor,
+  zero,
   label,
 });
 

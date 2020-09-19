@@ -101,14 +101,21 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
     if (isNull(n) && _ticks.length > 0) {
       return _ticks;
     }
-    _ticks = eNumScale.ticks(n).map((value, index) => ({
+    _ticks = eNumScale.ticks(n);
+    if(_ticks.length > 1 && _ticks[0] < _ticks[1]) {
+      _ticks.reverse();
+    }
+    return _ticks.map((value, index) => ({
       index,
       value,
       x: scalingFunction(value),
-      isMinor: index % 2
-    }));
+      isMinor: index % 2,
+      isZero: value === 0,
+    }))
 
-    return _ticks;
+
+
+    // return _ticks;
   };
 
   const getName = () => {
