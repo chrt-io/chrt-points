@@ -53,16 +53,77 @@ function yAxis(ticksNumber = TICKS_DEFAULT) {
     }
     const { _margins, scales, width, height } = this.parentNode;
 
+    // CHECKING MARGINS
+    // let topMarginLine = this.g.querySelector(`[data-id='top-margin-${name}-axis-line']`);
+    // if (!topMarginLine) {
+    //   topMarginLine = create('line');
+    //   topMarginLine.setAttribute('data-id', `top-margin-${name}-axis-line`);
+    //   this.g.appendChild(topMarginLine);
+    //
+    //   topMarginLine.setAttribute('stroke', '#f00');
+    //   topMarginLine.setAttribute(
+    //     'stroke-width',
+    //     2
+    //   );
+    //
+    //   topMarginLine.setAttribute('x1', 0);
+    //   topMarginLine.setAttribute('x2', width);
+    // }
+    // topMarginLine.setAttribute('y1', _margins.top);
+    // topMarginLine.setAttribute('y2', _margins.top);
+    //
+    // let bottomMarginLine = this.g.querySelector(`[data-id='bottom-margin-${name}-axis-line']`);
+    // if (!bottomMarginLine) {
+    //   bottomMarginLine = create('line');
+    //   bottomMarginLine.setAttribute('data-id', `bottom-margin-${name}-axis-line`);
+    //   this.g.appendChild(bottomMarginLine);
+    //
+    //   bottomMarginLine.setAttribute('stroke', '#f00');
+    //   bottomMarginLine.setAttribute(
+    //     'stroke-width',
+    //     2
+    //   );
+    //
+    //   bottomMarginLine.setAttribute('x1', 0);
+    //   bottomMarginLine.setAttribute('x2', width);
+    // }
+    // bottomMarginLine.setAttribute('y1', height - _margins.bottom);
+    // bottomMarginLine.setAttribute('y2', height - _margins.bottom);
+
     this.g.setAttribute('id', `${name}Axis${this.id()}`);
     const axisX =
       this.orientation === DEFAULT_ORIENTATION[this.name] ? _margins.left : width - _margins.right;
     this.g.setAttribute('transform', `translate(${axisX},0)`);
-
+    if(this._label) {
+      this._label.tickIndex = -1;
+    }
     const ticks = scales[name]
       //.ticks(ticksNumber * (this.showMinorTicks ? 2 : 1))
       .ticks(ticksNumber * 2)
+      .map((tick, i , arr) => {
+        tick.position = scales[name](tick.value);
+        let visible =
+          tick.position >= _margins.top && tick.position <= height - _margins.bottom;
+          // tick.position >= 0 && tick.position <= height ;
+        visible = visible && (this.showMinorTicks || (tick.isZero && this.showZero) || !tick.isMinor);
+        visible = visible && ((!isLog) || (isLog && !tick.isMinor));
+
+        if(this.ticksFilter) {
+          visible = this.ticksFilter(tick.value, i, arr);
+        }
+        tick.visible = visible;
+
+        tick.label = null;
+
+        if(tick.visible && this._label && this._label.tickIndex === -1) {
+          tick.label = this._label;
+          this._label.tickIndex = tick.index;
+        }
+
+        return tick;
+      })
       .filter((tick, i, arr) => this.ticksFilter ? this.ticksFilter(tick.value, i, arr) : true);
-    console.log('Y AXIS TICKS', ticks)
+    // console.log('Y AXIS TICKS', ticks)
     let axisLine = this.g.querySelector(`[data-id='tick-${name}-axis-line']`);
     if (!axisLine) {
       axisLine = create('line');
@@ -96,19 +157,9 @@ function yAxis(ticksNumber = TICKS_DEFAULT) {
         d.remove();
       }
     })
-    generateTicks.call(this, ticks, name, (tickGroup, tick, i, arr) => {
-      const position = scales[name](tick.value);
-      tickGroup.setAttribute('transform', `translate(0, ${position})`);
-      let visible =
-        position >= _margins.top && position <= height - _margins.bottom;
-      visible = visible && (this.showMinorTicks || (tick.isZero && this.showZero) || !tick.isMinor);
-      visible = visible && ((!isLog) || (isLog && !tick.isMinor));
-
-      if(this.ticksFilter) {
-        visible = this.ticksFilter(tick.value, i, arr);
-      }
-
-      yAxisTick(tickGroup, visible);
+    generateTicks.call(this, ticks, name, (tickGroup, tick) => {
+      tickGroup.setAttribute('transform', `translate(0, ${tick.position})`);
+      yAxisTick(tickGroup, tick.visible);
     });
 
 

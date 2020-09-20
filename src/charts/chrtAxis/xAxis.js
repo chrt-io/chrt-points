@@ -34,9 +34,32 @@ function xAxis(ticksNumber = TICKS_DEFAULT) {
 
     const { _margins, width, height, scales } = this.parentNode;
 
-    // console.log('X AXIS TICKS NUMBER', ticksNumber)
+    if(this._label) {
+      this._label.tickIndex = -1;
+    }
     const ticks = scales[name]
       .ticks(ticksNumber * 2)
+      .map((tick, i , arr) => {
+        tick.position = scales[name](tick.value);
+        let visible =
+          tick.position >= _margins.left && tick.position <= width - _margins.right;
+        visible = visible && (this.showMinorTicks || (tick.isZero && this.showZero) || !tick.isMinor);
+        visible = visible && ((!isLog) || (isLog && !tick.isMinor));
+
+        if(this.ticksFilter) {
+          visible = this.ticksFilter(tick.value, i, arr);
+        }
+        tick.visible = visible;
+
+        tick.label = null;
+
+        if(tick.visible && this._label && this._label.tickIndex === -1) {
+          tick.label = this._label;
+          this._label.tickIndex = tick.index;
+        }
+
+        return tick;
+      })
       .filter((tick, i, arr) => this.ticksFilter ? this.ticksFilter(tick.value, i, arr) : true);
 
     this.g.setAttribute('id', `${name}Axis-${this.id()}`);
@@ -77,14 +100,10 @@ function xAxis(ticksNumber = TICKS_DEFAULT) {
         d.remove();
       }
     })
-    generateTicks.call(this, ticks, name, (tickGroup, tick, i, arr) => {
-      const position = scales[name](tick.value);
-      tickGroup.setAttribute('transform', `translate(${position}, 0)`);
-      let visible =
-        position >= _margins.left && position <= width - _margins.right;
-      visible = visible && (this.showMinorTicks || !tick.isMinor);
-      visible = visible && ((!isLog) || (isLog && !tick.isMinor));
-      xAxisTick(tickGroup, visible);
+    generateTicks.call(this, ticks, name, (tickGroup, tick) => {
+      // console.log('generateTick', name, tick)
+      tickGroup.setAttribute('transform', `translate(${tick.position}, 0)`);
+      xAxisTick(tickGroup, tick.visible);
     });
 
     return this.parentNode;

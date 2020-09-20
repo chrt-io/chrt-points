@@ -1,7 +1,7 @@
 import {hasData} from '~/helpers';
 
 export default function (data, accessor) {
-  console.log('----> data', data);
+  // console.log('----> data', data);
   if (!data) {
     return hasData(this) ? this._data : this;
   }
@@ -9,14 +9,14 @@ export default function (data, accessor) {
   if(!hasData(this)) {
     return this;
   }
-  // console.log('chrt or series', this.type)
+  // // console.log('chrt or series', this.type)
   // passing only accessor to inherit/reuse data
   if(typeof arguments[0] === 'function') {
-    // console.log('ACCESSOR FUNCTION')
+    // // console.log('ACCESSOR FUNCTION')
     this._accessor = arguments[0];
     return this;
   }
-  // console.log('DATA', this, this._data, data);
+  // // console.log('DATA', this, this._data, data);
   // data is passed
   this._orginalData = data;
 
@@ -32,9 +32,9 @@ export default function (data, accessor) {
   }) : data;
 
   // if(typeof this.id !== 'undefined') {
-  //   // console.log('data', this._data);
-  //   // console.log('THIS!', this)
-  //   // console.log('id', this.id())
+  //   // // console.log('data', this._data);
+  //   // // console.log('THIS!', this)
+  //   // // console.log('id', this.id())
   // }
 
   return this;

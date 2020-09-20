@@ -17,7 +17,7 @@ function chrtLine() {
 
   this.draw = () => {
     const _data = this._data.length ? this._data : this.parentNode._data;
-    console.log('this.draw', _data)
+    // console.log('this.draw', _data)
     if (!isNull(_data)) {
       if (!this.path) {
         this.path = create('path');

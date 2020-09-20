@@ -5,7 +5,7 @@ import { memoize } from '~/util';
 import ExtendedWilkinson from './util/ExtendedWilkinson';
 
 export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
-  console.log(`scale(${name}, ${domain}, range = ${[0, DEFAULT_WIDTH]})`)
+  // console.log(`scale(${name}, ${domain}, range = ${[0, DEFAULT_WIDTH]})`)
 
   const fixedDomain = domain || (this.scales[name] ? this.scales[name].fixedDomain : null);
 
@@ -13,19 +13,19 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
     //domain = [0, 1]; // not sure anymore about this
   }
   let _ticks = [];
-  // console.log('rrrrange', range)
+  // // console.log('rrrrange', range)
   range[0] += name === 'x' ? this._padding.left : -this._padding.bottom;
   range[1] -= name === 'x' ? this._padding.right : -this._padding.top;
-  // console.log(name,'RANGE',range)
+  // // console.log(name,'RANGE',range)
 
   const currentDomain = (this.scales[name] && !this.scales[name].isLog())? this.scales[name].domain : [];
   let domainExtent = fixedDomain || domain || currentDomain;
 
 
 
-  console.log('DOMAIN', name, [...domainExtent], this.scales[name])
-  console.log('FIXED DOMAIN', name, fixedDomain)
-  console.log('CURRENT DOMAIN', name, currentDomain);
+  // console.log('DOMAIN', name, [...domainExtent], this.scales[name])
+  // console.log('FIXED DOMAIN', name, fixedDomain)
+  // console.log('CURRENT DOMAIN', name, currentDomain);
   if (arguments.length === 1) {
     return this.scales[arguments[0]];
   }
@@ -33,20 +33,20 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
   // if no domain defined or new domain is different from current domain
   // calculate the new domain based on all the data
   if(!fixedDomain || (!domainExtent.length || (domainExtent[0] !== currentDomain[0] || domainExtent[1] !== currentDomain[1]))) {
-    console.log('CALCULATE DOMAIN BASED ON THE DATA', name)
+    // console.log('CALCULATE DOMAIN BASED ON THE DATA', name)
     this._data.forEach(d => {
-      // console.log(name, domainExtent[0],d[name],domainExtent[1])
+      // // console.log(name, domainExtent[0],d[name],domainExtent[1])
       domainExtent[0] =
         domainExtent[0] == null ? d[name] : Math.min(d[name], domainExtent[0]);
       domainExtent[1] =
         domainExtent[1] == null ? d[name] : Math.max(d[name], domainExtent[1]);
     });
 
-    console.log('DOMAIN EXTENT', name, domainExtent)
+    // console.log('DOMAIN EXTENT', name, domainExtent)
   }
-  // console.log('NEED TO CHECK FOR objects', this.objects)
+  // // console.log('NEED TO CHECK FOR objects', this.objects)
   this.objects.forEach(obj => {
-    // console.log('setting domain', obj.id())
+    // // console.log('setting domain', obj.id())
     if (obj._data) {
       obj._data.forEach(d => {
         domainExtent[0] =
@@ -61,20 +61,20 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
     }
   });
 
-  // console.log('DOMAIN AFTER IMPROVEMENT', name, [...domainExtent])
+  // // console.log('DOMAIN AFTER IMPROVEMENT', name, [...domainExtent])
 
   // const numScale = new Heckbert(domainExtent);
   const eNumScale = new ExtendedWilkinson(domainExtent);
-  // console.log('E WILK', eNumScale.ticks())
+  // // console.log('E WILK', eNumScale.ticks())
   // re-assign domain based on, max/min of heckbert nice scale
-  //// console.log(domainExtent[0],domainExtent[1],'after WILKINSON', eNumScale.getMin(), eNumScale.getMax())
+  //// // console.log(domainExtent[0],domainExtent[1],'after WILKINSON', eNumScale.getMin(), eNumScale.getMax())
   if(!currentDomain) {
     domainExtent[0] = eNumScale.getMin();
     domainExtent[1] = eNumScale.getMax();
   }
 
 
-  // console.log('AFTER WILK DOMAIN',  name, [...domainExtent])
+  // // console.log('AFTER WILK DOMAIN',  name, [...domainExtent])
 
   const domainWidth = domainExtent[1] - domainExtent[0];
   const direction = range[1] >= range[0] ? 1 : -1;
@@ -90,14 +90,14 @@ export default function scale(name, domain, range = [0, DEFAULT_WIDTH]) {
     range[0] +
     (name === 'x' ? this._margins.left : this._margins.bottom) * direction;
 
-  // console.log('new this.scalingFunction', domainExtent, range, rangeWidth)
+  // // console.log('new this.scalingFunction', domainExtent, range, rangeWidth)
   const scalingFunction = d => {
     const valueToDomain = (d - domainExtent[0]) / domainWidth;
     return startCoord + rangeWidth * valueToDomain;
   };
 
   const ticks = (n = TICKS_DEFAULT) => {
-    // console.log('LINEAR SCALE', 'ticks', n)
+    // // console.log('LINEAR SCALE', 'ticks', n)
     if (isNull(n) && _ticks.length > 0) {
       return _ticks;
     }

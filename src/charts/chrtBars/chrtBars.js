@@ -60,7 +60,7 @@ function chrtBars() {
         rect.setAttribute('stroke-width', this.strokeWidth);
       });
 
-      // // console.log('points', points);
+      // // // console.log('points', points);
     }
     return this.parentNode;
   };

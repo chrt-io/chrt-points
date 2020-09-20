@@ -29,7 +29,7 @@ export default function Heckbert([dmin, dmax], ticksNumber) {
     // }
     this.ticksNumber = n;
 
-    // console.log('CALCULATING TICKS', dmin, dmax, this.ticksNumber)
+    // // console.log('CALCULATING TICKS', dmin, dmax, this.ticksNumber)
     this._ticks = [];
 
     this.range = this.nicenum(dmax - dmin, false);
@@ -37,7 +37,7 @@ export default function Heckbert([dmin, dmax], ticksNumber) {
     this.lmin = Math.floor(dmin / this.lstep) * this.lstep;
     this.lmax = Math.ceil(dmax / this.lstep) * this.lstep;
 
-    // console.log(this.range, this.lstep, this.lmin, this.lmax)
+    // // console.log(this.range, this.lstep, this.lmin, this.lmax)
 
     for (let tick = this.lmin; tick < this.lmax; tick += this.lstep) {
       this._ticks.push(tick);

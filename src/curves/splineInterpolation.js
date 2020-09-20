@@ -67,7 +67,7 @@ export const bezierCommand = (point, i, a) => {
 //
 //   // This function must also respect "skipped" points
 //
-//   console.log('splineCurve', firstPoint, middlePoint, afterPoint);
+//   // console.log('splineCurve', firstPoint, middlePoint, afterPoint);
 //
 //   const previous = firstPoint.skip ? middlePoint : firstPoint;
 //   const current = middlePoint;

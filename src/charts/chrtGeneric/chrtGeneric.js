@@ -13,7 +13,7 @@ export default function chrtGeneric() {
   this.interpolationFunction = linearInterpolation;
 
   this.id = (id) => {
-    // console.log('chrtGeneric.id', id, this._id);
+    // // console.log('chrtGeneric.id', id, this._id);
     if(isNull(id)) {
       return this._id;
     }

@@ -13,7 +13,7 @@ export default function orient(value) {
       ORIENTATIONS[this.name].indexOf(value) > -1
         ? value
         : DEFAULT_ORIENTATION[this.name];
-    // console.log('SETTING ORIENTATION', this.name, value, '->', this.orientation)
+    // // console.log('SETTING ORIENTATION', this.name, value, '->', this.orientation)
   }
   return this;
 }

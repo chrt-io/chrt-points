@@ -19,7 +19,7 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
   this.type = 'grid';
   // ticksNumber *= 2;
 
-  // console.log('GRID', name, ticksNumber);
+  // // console.log('GRID', name, ticksNumber);
 
   this.strokeWidth = DEFAULT_LINE_WIDTH;
   this.stroke = DEAULT_LINE_COLOR;
@@ -56,7 +56,7 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
     // .filter((tick, i, arr) => this.ticksFilter(tick.value, i, arr));
     .filter((tick, i, arr) => this.ticksFilter ? this.ticksFilter(tick.value, i, arr) : true);
 
-    // console.log('got this ticks', name, ticksNumber, ticks);
+    // // console.log('got this ticks', name, ticksNumber, ticks);
     this.g.setAttribute('id', `${name}Grid-${this.id()}`);
     this.g.querySelectorAll('line').forEach(gridLine => gridLine.setAttribute('toBeHidden', true));
 

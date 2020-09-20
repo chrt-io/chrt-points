@@ -21,15 +21,15 @@ const DEFAULT_FILL_OPACITY = 1;
 
 function chrtMarkers() {
   chrtGeneric.call(this);
-  console.log('HI WE ARE MARKERS', this);
+  // console.log('HI WE ARE MARKERS', this);
   this.type = 'markers';
   this.markers = [];
   this.g = null;
   this.markersFilter = () => true;
 
   this.draw = () => {
-    console.log('DRAW MARKERS', this.parentNode.data(), this.parentNode.parentNode._data);
-    console.log(this)
+    // console.log('DRAW MARKERS', this.parentNode.data(), this.parentNode.parentNode._data);
+    // console.log(this)
     const parentData = this.parentNode.data();
     // this might be broken when only local data to the component is updated - to be tested
     const data= parentData.length ? parentData : (this.parentNode.parentNode._data || []);

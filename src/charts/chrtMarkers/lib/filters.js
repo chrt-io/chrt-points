@@ -48,7 +48,7 @@ export function hideMarkers(filter) {
 }
 
 export function firstMarker(show = true) {
-  // console.log('FIRST TICK', this, show)
+  // // console.log('FIRST TICK', this, show)
   if(show) {
     showMarkers.call(this, (d,i) => i === 0);
   } else {

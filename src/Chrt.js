@@ -13,7 +13,7 @@ import { scaleLinear, scaleLog } from './scales';
 import { isNull } from './helpers';
 
 export function Chrt(_data = [], _node) {
-  // console.log('CHRT', _data);
+  // // console.log('CHRT', _data);
   this.type = 'chrt';
   this._data = _data;
   this._orginalData = this._data;
@@ -111,7 +111,7 @@ export function Chrt(_data = [], _node) {
   };
 
   this.update = () => {
-    console.log('UPDATE',this._data)
+    // console.log('UPDATE',this._data)
     this.x();
     this.y(
       null,
