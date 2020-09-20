@@ -82,8 +82,9 @@ function xAxis(ticksNumber = TICKS_DEFAULT) {
     axisLine.setAttribute('x1', _margins.left);
     axisLine.setAttribute('x2', width - _margins.right);
     const axisLineY = scales['y'].isLog() ? scales['y'].range[1] : scales['y'](0) - (height - _margins.bottom);
-    axisLine.setAttribute('y1', axisLineY);
-    axisLine.setAttribute('y2', axisLineY);
+
+    axisLine.setAttribute('y1', !isNaN(axisLineY) ? axisLineY : 0);
+    axisLine.setAttribute('y2', !isNaN(axisLineY) ? axisLineY : 0);
 
     // if no axis remove the axis line after creating it
     if (!this.showAxisLine) {

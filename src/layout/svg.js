@@ -53,7 +53,7 @@ export const svgPath = (points, command) => {
       acc.push(
         i === 0
           ? // if first point
-            `M${point[0]},${point[1]}`
+            `M${isNaN(point[0]) ? 0 : point[0]},${isNaN(point[1]) ? 0 : point[1]}`
           : // else
             `${command(point, i, a)}`
       );

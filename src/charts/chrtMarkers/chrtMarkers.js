@@ -64,18 +64,22 @@ function chrtMarkers() {
     this.markers
       .filter((marker, i, arr) => this.markersFilter(marker.marker, i, arr))
       .forEach(d => {
+        const cx = this.parentNode.parentNode.scales['x'](
+          d.marker[this.parentNode.fields.x]
+        );
         d.circle.setAttribute(
           'cx',
-          this.parentNode.parentNode.scales['x'](
-            d.marker[this.parentNode.fields.x]
-          )
+          isNaN(cx) ? 0 : cx,
+        );
+
+        const cy = this.parentNode.parentNode.scales['y'](
+          d.marker[this.parentNode.fields.y]
         );
         d.circle.setAttribute(
           'cy',
-          this.parentNode.parentNode.scales['y'](
-            d.marker[this.parentNode.fields.y]
-          )
+          isNaN(cy) ? 0 : cy,
         );
+        
         d.circle.setAttribute('fill', fill);
         d.circle.setAttribute('fill-opacity', opacity);
         d.circle.setAttribute('r', radius);

@@ -11,4 +11,4 @@ export default function linearInterpolation(data) {
   );
 }
 
-export const lineCommand = point => `L${point[0]},${point[1]}`;
+export const lineCommand = point => `L${isNaN(point[0]) ? 0 : point[0]},${isNaN(point[1]) ? 0 : point[1]}`;
