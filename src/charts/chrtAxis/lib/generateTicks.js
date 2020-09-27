@@ -14,16 +14,18 @@ export default function generateTicks(ticks,name,callback) {
 
       this.g.appendChild(tickGroup);
 
-      const tickLine = create('line');
-      tickLine.setAttribute('stroke', this.stroke)
-      tickLine.setAttribute('stroke-width', this.strokeWidth);
-      tickGroup.appendChild(tickLine);
+      if(this.showAxisLine) {
+        const tickLine = create('line');
+        tickLine.setAttribute('stroke', this.stroke)
+        tickLine.setAttribute('stroke-width', this.strokeWidth);
+        tickGroup.appendChild(tickLine);
+      }
 
       const label = create('text')
       label.textContent = this.labelFormat(tick.value, i, arr);
       label.setAttribute('fill', this.tickTextColor)
       if(tick.label) {
-        label.textContent = `${this.labelFormat(tick.value, i, arr)} ${tick.label.text}`;
+        label.textContent = `${this.labelFormat(tick.value, i, arr)}${tick.label.text}`;
       }
       tickGroup.appendChild(label);
     }

@@ -3,6 +3,9 @@ import { hasData } from '~/helpers';
 
 export default function render() {
   this.g = create('g');
+  if(this._id) {
+    this.g.setAttribute('id', this._id);
+  }
 
   // // console.log('RENDER', this, this.parentNode.objects)
 

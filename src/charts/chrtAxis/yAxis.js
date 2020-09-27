@@ -13,13 +13,17 @@ function yAxis(ticksNumber = TICKS_DEFAULT) {
     const orientation =
       this.orientation === DEFAULT_ORIENTATION[this.name] ? 1 : -1;
 
-    const tickLine = tickGroup.querySelector('line');
 
-    tickLine.setAttribute('x1', 0);
-    tickLine.setAttribute(
-      'x2',
-      (this.tickPosition === 'outside' ? -this.tickLength : 0) * orientation
-    );
+    const tickLine = tickGroup.querySelector('line');
+    if(tickLine) {
+      tickLine.setAttribute('x1', 0);
+      tickLine.setAttribute(
+        'x2',
+        (this.tickPosition === 'outside' ? -this.tickLength : 0) * orientation
+      );
+    }
+
+
 
     const label = tickGroup.querySelector('text');
     label.setAttribute(
