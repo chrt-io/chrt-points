@@ -6,6 +6,7 @@ export { default as chrtPoints } from './charts/chrtPoints';
 export { default as chrtBars } from './charts/chrtBars';
 export { default as chrtGrid, horizontalGrid, verticalGrid } from './charts/chrtGrid';
 export { default as chrtAxis, xAxis, yAxis } from './charts/chrtAxis';
+export { default as chrtAxisRange } from './charts/chrtAxisRange';
 export { linearInterpolation, splineInterpolation } from './curves';
 export { default as chrtAnnotation } from './charts/chrtAnnotation';
 

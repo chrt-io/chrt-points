@@ -166,7 +166,7 @@ function yAxis(ticksNumber = TICKS_DEFAULT) {
       yAxisTick(tickGroup, tick.visible);
     });
 
-
+    this.objects.forEach(obj => obj.draw())
 
     return this.parentNode;
   };

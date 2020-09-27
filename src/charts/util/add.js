@@ -9,5 +9,7 @@ export default function add(obj) {
 
   this.objects.push(obj);
 
+  //return this.update();
+
   return this;
 }

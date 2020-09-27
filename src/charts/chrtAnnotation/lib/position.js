@@ -4,7 +4,7 @@ export default function position(coords) {
     return this;
   }
 
-  console.log('position', coords)
+  // console.log('position', coords)
 
   if (typeof coords === 'function') {
     // something will go here

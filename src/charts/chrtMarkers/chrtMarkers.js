@@ -79,7 +79,7 @@ function chrtMarkers() {
           'cy',
           isNaN(cy) ? 0 : cy,
         );
-        
+
         d.circle.setAttribute('fill', fill);
         d.circle.setAttribute('fill-opacity', opacity);
         d.circle.setAttribute('r', radius);

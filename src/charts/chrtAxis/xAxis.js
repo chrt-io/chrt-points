@@ -107,6 +107,8 @@ function xAxis(ticksNumber = TICKS_DEFAULT) {
       xAxisTick(tickGroup, tick.visible);
     });
 
+    this.objects.forEach(obj => obj.draw())
+
     return this.parentNode;
   };
 }

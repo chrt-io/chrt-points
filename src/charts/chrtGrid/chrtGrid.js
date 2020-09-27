@@ -120,6 +120,7 @@ function chrtGrid(name, ticksNumber = TICKS_DEFAULT) {
     return this.parentNode;
   };
 
+  this.solid = () => lineStyle.call(this, 'solid');
   this.dashed = () => lineStyle.call(this, 'dashed');
   this.dotted = () => lineStyle.call(this, 'dotted');
 }
