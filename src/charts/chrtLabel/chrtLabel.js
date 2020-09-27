@@ -22,7 +22,7 @@ function chrtLabel(text) {
   this._position = {};
   this._alignment = {
     horizontal: 'start',
-    vertical: 'center',
+    vertical: '0.25em',
   }
 
   this.draw = () => {
@@ -37,7 +37,7 @@ function chrtLabel(text) {
 
     const { scales } = this.parentNode.parentNode;
 
-    console.log('chrtLabel', this._position)
+    // console.log('chrtLabel', this._position)
 
     if(scales && scales['x']) {
       const x = isNull(this._position.x) ? 0 : scales['x'](this._position.x);
@@ -58,6 +58,7 @@ function chrtLabel(text) {
     label.textContent = this.text;
 
     label.setAttribute('text-anchor', this._alignment.horizontal)
+    label.setAttribute('dy', this._alignment.vertical)
   }
 }
 

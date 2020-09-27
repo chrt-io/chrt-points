@@ -4,6 +4,8 @@ export default function alignment(align) {
     return this;
   }
 
+  console.log('alignment', align)
+
   if (typeof coords === 'function') {
     // something will go here
   } else {
