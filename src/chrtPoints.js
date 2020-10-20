@@ -1,7 +1,7 @@
 import { isNull } from '~/helpers';
 import { createSVG as create } from '~/layout';
-import { pointSize, pointColor, pointStroke, pointStrokeWidth } from './lib';
-import chrtGeneric from '../chrtGeneric';
+import { pointSize, pointColor, pointStroke, pointStrokeWidth, pointOpacity } from './lib';
+import { chrtGeneric } from 'chrt-core';
 
 const DEFAULT_POINT_SIZE = 3;
 const DEFAULT_POINT_COLOR = '#000';
@@ -14,6 +14,7 @@ function chrtPoints() {
   this.fill = DEFAULT_POINT_COLOR;
   this.stroke = DEFAULT_POINT_COLOR;
   this.strokeWidth = 0;
+  this._opacity = 1;
 
   this.draw = () => {
     if(!isNull(this._data)) {
@@ -31,6 +32,7 @@ function chrtPoints() {
         circle.setAttribute('cy', y);
         circle.setAttribute('r', this.size);
         circle.setAttribute('fill', this.fill);
+        circle.setAttribute('fill-opacity', this._opacity);
         circle.setAttribute('stroke', this.stroke);
         circle.setAttribute('stroke-width', this.strokeWidth);
         // points.push({
@@ -53,7 +55,8 @@ chrtPoints.prototype = Object.assign(chrtPoints.prototype, {
   pointSize,
   color: pointColor,
   strokeColor: pointStroke,
-  width: pointStrokeWidth
+  width: pointStrokeWidth,
+  opacity: pointOpacity
 });
 
 export default chrtPoints;
