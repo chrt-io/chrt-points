@@ -59,4 +59,7 @@ chrtPoints.prototype = Object.assign(chrtPoints.prototype, {
   opacity: pointOpacity
 });
 
-export default chrtPoints;
+// export default chrtPoints;
+export default function() {
+  return new chrtPoints();
+}
