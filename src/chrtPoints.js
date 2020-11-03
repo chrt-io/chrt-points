@@ -26,19 +26,17 @@ function chrtPoints() {
           circle.setAttribute('data-id', `circle-${name}-${i}`);
           this.g.appendChild(circle);
         }
-        const x = this.parentNode.scales['x'](d[this.fields.x]);
-        const y = this.parentNode.scales['y'](d[this.fields.y]);
-        circle.setAttribute('cx', x);
-        circle.setAttribute('cy', y);
-        circle.setAttribute('r', this.size);
-        circle.setAttribute('fill', this.fill);
-        circle.setAttribute('fill-opacity', this._opacity);
-        circle.setAttribute('stroke', this.stroke);
-        circle.setAttribute('stroke-width', this.strokeWidth);
-        // points.push({
-        //   ...d,
-        //   el: circle
-        // });
+        if(!isNull(this.parentNode.scales['x']) && !isNull(this.parentNode.scales['y'])) {
+          const x = this.parentNode.scales['x'](d[this.fields.x]);
+          const y = this.parentNode.scales['y'](d[this.fields.y]);
+          circle.setAttribute('cx', !isNaN(x) ? x : 0);
+          circle.setAttribute('cy', !isNaN(y) ? y : 0);
+          circle.setAttribute('r', this.size);
+          circle.setAttribute('fill', this.fill);
+          circle.setAttribute('fill-opacity', this._opacity);
+          circle.setAttribute('stroke', this.stroke);
+          circle.setAttribute('stroke-width', this.strokeWidth);
+        }
       });
 
       // // // console.log('points', points);
