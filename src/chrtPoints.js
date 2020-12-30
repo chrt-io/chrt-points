@@ -18,6 +18,16 @@ function chrtPoints() {
 
   this.draw = () => {
     if(!isNull(this._data)) {
+
+      if(isNull(this.fields.x)) {
+        this.fields.x = this.parentNode.scales.x[this.scales.x].field;
+      }
+      if(isNull(this.fields.y)) {
+        //console.log('this.scales', this.scales)
+        //console.log('this.parentNode.scales', this.parentNode.scales)
+        this.fields.y = this.parentNode.scales.y[this.scales.y].field;
+      }
+
       this._data.forEach((d, i) => {
         // const point = points.find(p => )
         let circle = this.g.querySelector(`[data-id='circle-${name}-${i}']`);
@@ -26,9 +36,10 @@ function chrtPoints() {
           circle.setAttribute('data-id', `circle-${name}-${i}`);
           this.g.appendChild(circle);
         }
-        if(!isNull(this.parentNode.scales['x']) && !isNull(this.parentNode.scales['y'])) {
-          const x = this.parentNode.scales['x'](d[this.fields.x]);
-          const y = this.parentNode.scales['y'](d[this.fields.y]);
+        if(!isNull(this.parentNode.scales.x[this.scales.x]) && !isNull(this.parentNode.scales.y[this.scales.y])) {
+
+          const x = this.parentNode.scales.x[this.scales.x](d[this.fields.x]);
+          const y = this.parentNode.scales.y[this.scales.y](d[this.fields.y]);
           circle.setAttribute('cx', !isNaN(x) ? x : 0);
           circle.setAttribute('cy', !isNaN(y) ? y : 0);
           circle.setAttribute('r', this.size);
