@@ -1,6 +1,6 @@
 import { isNull } from '~/helpers';
 import { createSVG as create } from '~/layout';
-import { pointSize, pointColor, pointStroke, pointStrokeWidth, pointOpacity } from './lib';
+import { pointSize, pointColor, pointStroke, pointStrokeWidth, pointOpacity, strokeOpacity } from './lib';
 import { chrtGeneric } from 'chrt-core';
 
 const DEFAULT_POINT_SIZE = 3;
@@ -10,11 +10,18 @@ function chrtPoints() {
   chrtGeneric.call(this);
   this.type = 'series';
 
-  this.size = DEFAULT_POINT_SIZE;
-  this.fill = DEFAULT_POINT_COLOR;
-  this.stroke = DEFAULT_POINT_COLOR;
-  this.strokeWidth = 0;
-  this._opacity = 1;
+  // this.size = DEFAULT_POINT_SIZE;
+  // this.fill = DEFAULT_POINT_COLOR;
+  // this.stroke = DEFAULT_POINT_COLOR;
+  // this.strokeWidth = 0;
+  // this._opacity = 1;
+
+  this.attr('radius', DEFAULT_POINT_SIZE);
+  this.attr('stroke', DEFAULT_POINT_COLOR);
+  this.attr('fill', DEFAULT_POINT_COLOR);
+  this.attr('strokeWidth', 0);
+  this.attr('strokeOpacity', 1);
+  this.attr('fillOpacity', 1);
 
   this.draw = () => {
     if(!isNull(this._data)) {
@@ -28,7 +35,7 @@ function chrtPoints() {
         this.fields.y = this.parentNode.scales.y[this.scales.y].field;
       }
 
-      this._data.forEach((d, i) => {
+      this._data.forEach((d, i, arr) => {
         // const point = points.find(p => )
         let circle = this.g.querySelector(`[data-id='circle-${name}-${i}']`);
         if (!circle) {
@@ -42,11 +49,12 @@ function chrtPoints() {
           const y = this.parentNode.scales.y[this.scales.y](d[this.fields.y]);
           circle.setAttribute('cx', !isNaN(x) ? x : 0);
           circle.setAttribute('cy', !isNaN(y) ? y : 0);
-          circle.setAttribute('r', this.size);
-          circle.setAttribute('fill', this.fill);
-          circle.setAttribute('fill-opacity', this._opacity);
-          circle.setAttribute('stroke', this.stroke);
-          circle.setAttribute('stroke-width', this.strokeWidth);
+          circle.setAttribute('r', this.attr('radius')(d, i, arr));
+          circle.setAttribute('fill', this.attr('fill')(d, i, arr));
+          circle.setAttribute('fill-opacity', this.attr('fillOpacity')(d, i, arr) || 1);
+          circle.setAttribute('stroke', this.attr('stroke')(d, i, arr));
+          circle.setAttribute('stroke-width', this.attr('strokeWidth')(d, i, arr));
+          circle.setAttribute('stroke-opacity', this.attr('strokeOpacity')(d, i, arr));
         }
       });
 
@@ -62,10 +70,14 @@ chrtPoints.parent = chrtGeneric.prototype;
 
 chrtPoints.prototype = Object.assign(chrtPoints.prototype, {
   pointSize,
+  size: pointSize,
+  radius: pointSize,
   color: pointColor,
-  strokeColor: pointStroke,
+  stroke: pointStroke,
   width: pointStrokeWidth,
-  opacity: pointOpacity
+  strokeWidth: pointStrokeWidth,
+  opacity: pointOpacity,
+  strokeOpacity,
 });
 
 // export default chrtPoints;
