@@ -23,7 +23,12 @@ function chrtPoints() {
   this.attr('strokeOpacity', 1);
   this.attr('fillOpacity', 1);
 
+  this._classNames = ['chrt-points'];
+
   this.draw = () => {
+
+    this._classNames.forEach(d => this.g.classList.add(d));
+
     if(!isNull(this._data)) {
 
       if(isNull(this.fields.x)) {
