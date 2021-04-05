@@ -1,6 +1,6 @@
 {
   "name": "chrt-points",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Points component for Chrt",
   "main": "dist/chrt-points.js",
   "module": "dist/chrt-points.esm.js",
