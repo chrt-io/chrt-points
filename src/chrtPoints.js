@@ -25,6 +25,13 @@ function chrtPoints() {
 
   this._classNames = ['chrt-points'];
 
+  this.getXScale = () => {
+    if(isNull(this.fields.x)) {
+      this.fields.x = this.parentNode.scales.x[this.scales.x].field;
+    }
+    return this.parentNode.scales.x[this.scales.x];
+  }
+
   this.draw = () => {
 
     this._classNames.forEach(d => this.g.classList.add(d));
@@ -65,6 +72,9 @@ function chrtPoints() {
 
       // // // console.log('points', points);
     }
+
+    this.objects.forEach((obj) => obj.draw());
+
     return this.parentNode;
   };
 }
