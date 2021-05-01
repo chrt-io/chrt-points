@@ -1,7 +1,7 @@
 import { isNull } from '~/helpers';
 import { createSVG as create } from '~/layout';
 import { pointSize, pointColor, pointStroke, pointStrokeWidth, pointOpacity, strokeOpacity } from './lib';
-import { chrtGeneric } from 'chrt-core';
+import chrtGeneric from 'chrt-object';
 
 const DEFAULT_POINT_SIZE = 3;
 const DEFAULT_POINT_COLOR = '#000';
