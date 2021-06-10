@@ -10,12 +10,6 @@ function chrtPoints() {
   chrtGeneric.call(this);
   this.type = 'series';
 
-  // this.size = DEFAULT_POINT_SIZE;
-  // this.fill = DEFAULT_POINT_COLOR;
-  // this.stroke = DEFAULT_POINT_COLOR;
-  // this.strokeWidth = 0;
-  // this._opacity = 1;
-
   this.attr('radius', DEFAULT_POINT_SIZE);
   this.attr('stroke', DEFAULT_POINT_COLOR);
   this.attr('fill', DEFAULT_POINT_COLOR);
@@ -88,10 +82,11 @@ chrtPoints.prototype = Object.assign(chrtPoints.prototype, {
   size: pointSize,
   radius: pointSize,
   color: pointColor,
+  fill: pointColor,
   stroke: pointStroke,
-  width: pointStrokeWidth,
   strokeWidth: pointStrokeWidth,
   opacity: pointOpacity,
+  fillOpacity: pointOpacity,
   strokeOpacity,
 });
 
