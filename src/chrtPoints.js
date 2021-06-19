@@ -69,7 +69,7 @@ function chrtPoints() {
 
     this.objects.forEach((obj) => obj.draw());
 
-    return this.parentNode;
+    return this;
   };
 }
 
