@@ -1,4 +1,4 @@
-import { isNull } from '~/helpers';
+import { isNull, isInfinity } from '~/helpers';
 import { createSVG as create } from '~/layout';
 import { pointSize, pointColor, pointStroke, pointStrokeWidth, pointOpacity, strokeOpacity } from './lib';
 import chrtGeneric from 'chrt-object';
@@ -53,8 +53,8 @@ function chrtPoints() {
 
           const x = this.parentNode.scales.x[this.scales.x](d[this.fields.x]);
           const y = this.parentNode.scales.y[this.scales.y](d[this.fields.y]);
-          circle.setAttribute('cx', !isNaN(x) ? x : 0);
-          circle.setAttribute('cy', !isNaN(y) ? y : 0);
+          circle.setAttribute('cx', !isNaN(x) && !isInfinity(x) ? x : 0);
+          circle.setAttribute('cy', !isNaN(y) && !isInfinity(y) ? y : 0);
           circle.setAttribute('r', this.attr('radius')(d, i, arr));
           circle.setAttribute('fill', this.attr('fill')(d, i, arr));
           circle.setAttribute('fill-opacity', this.attr('fillOpacity')(d, i, arr) || 1);
