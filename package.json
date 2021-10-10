@@ -2,8 +2,24 @@
   "name": "chrt-points",
   "version": "0.0.22",
   "description": "Points component for Chrt",
-  "main": "dist/chrt-points.js",
+  "type": "module",
+  "main": "src/index.js",
   "module": "dist/chrt-points.esm.js",
+  "jsdelivr": "dist/chrt-points.min.js",
+  "unpkg": "dist/chrt-points.min.js",
+  "exports": {
+    "umd": "./dist/chrt-points.min.js",
+    "default": "./dist/chrt-points.esm.js"
+  },
+  "keywords": [
+    "chrt",
+    "charts",
+    "points",
+    "scatterplot",
+    "scatter",
+    "bubblechart",
+    "visualization"
+  ],
   "watch": {
     "build": {
       "patterns": [
@@ -18,7 +34,8 @@
     "build": "rollup -c",
     "lint": "eslint src --fix",
     "watch": "npm-watch",
-    "dev": "budo test/chrts/index.js:bundle.js --live --dir test/chrts  -- -t [ babelify --extensions .js ]"
+    "dev": "budo test/chrts/index.js:bundle.js --live --dir test/chrts  -- -t [ babelify --extensions .js --global true ]",
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {
