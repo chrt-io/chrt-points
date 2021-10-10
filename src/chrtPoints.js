@@ -8,13 +8,13 @@ import {
   pointOpacity,
   strokeOpacity
 } from './lib';
-import chrtGeneric from 'chrt-object';
+import chrtObject from 'chrt-object';
 
 const DEFAULT_POINT_SIZE = 3;
 const DEFAULT_POINT_COLOR = '#000';
 
 function chrtPoints() {
-  chrtGeneric.call(this);
+  chrtObject.call(this);
   this.type = 'series';
 
   this.attr('radius', DEFAULT_POINT_SIZE);
@@ -110,9 +110,9 @@ function chrtPoints() {
   };
 }
 
-chrtPoints.prototype = Object.create(chrtGeneric.prototype);
+chrtPoints.prototype = Object.create(chrtObject.prototype);
 chrtPoints.prototype.constructor = chrtPoints;
-chrtPoints.parent = chrtGeneric.prototype;
+chrtPoints.parent = chrtObject.prototype;
 
 chrtPoints.prototype = Object.assign(chrtPoints.prototype, {
   pointSize,
