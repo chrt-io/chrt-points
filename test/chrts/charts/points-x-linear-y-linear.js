@@ -1,5 +1,5 @@
 import * as chrt from 'chrt';
-import chrtPoints from '~/chrtPoints'
+import chrtPoints from '../../../src/chrtPoints'
 
 const data = new Array(100).fill(1).map((d,i) => ({x: -50 + i, y: -50 + i}));
 

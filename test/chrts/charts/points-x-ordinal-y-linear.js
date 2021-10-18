@@ -1,5 +1,5 @@
 import * as chrt from 'chrt';
-import chrtPoints from '~/chrtPoints'
+import chrtPoints from '../../../src/chrtPoints'
 
 const data = [
   {

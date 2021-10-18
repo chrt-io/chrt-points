@@ -1,5 +1,5 @@
-import { isNull, isInfinity } from '~/helpers';
-import { createSVG as create } from '~/layout';
+import { isNull, isInfinity } from './helpers';
+import { createSVG as create } from './layout';
 import {
   pointSize,
   pointColor,

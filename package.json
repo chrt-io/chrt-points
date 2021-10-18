@@ -4,7 +4,7 @@
   "description": "Points component for Chrt",
   "type": "module",
   "main": "src/index.js",
-  "module": "dist/chrt-points.esm.js",
+  "module": "src/index.js",
   "jsdelivr": "dist/chrt-points.min.js",
   "unpkg": "dist/chrt-points.min.js",
   "exports": {
