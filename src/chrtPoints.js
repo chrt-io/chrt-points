@@ -2,6 +2,7 @@ import { isNull, isInfinity } from './helpers';
 import { createSVG as create } from './layout';
 import {
   pointSize,
+  pointRadius,
   pointColor,
   pointStroke,
   pointStrokeWidth,
@@ -10,19 +11,20 @@ import {
 } from './lib';
 import chrtObject from 'chrt-object';
 
-const DEFAULT_POINT_SIZE = 3;
+const DEFAULT_POINT_RADIUS = 3;
 const DEFAULT_POINT_COLOR = '#000';
 
 function chrtPoints() {
   chrtObject.call(this);
   this.type = 'series';
 
-  this.attr('radius', DEFAULT_POINT_SIZE);
+  this.attr('radius', DEFAULT_POINT_RADIUS);
   this.attr('stroke', DEFAULT_POINT_COLOR);
   this.attr('fill', DEFAULT_POINT_COLOR);
   this.attr('strokeWidth', 0);
   this.attr('strokeOpacity', 1);
   this.attr('fillOpacity', 1);
+  this.attr('size', null);
 
   this._classNames = ['chrt-points'];
 
@@ -63,7 +65,12 @@ function chrtPoints() {
 
           const cx = !isNaN(x) && !isInfinity(x) ? x : 0;
           const cy = !isNaN(y) && !isInfinity(y) ? y : 0;
-          const r = this.attr('radius')(d, i, arr);
+          let r = this.attr('radius')(d, i, arr);
+
+          const size = this.attr('size')(d,i,arr);
+          if(!isNull(size)) {
+            r = Math.sqrt(size/Math.PI)
+          }
 
           d.anchorPoints = {
             x: cx,
@@ -83,7 +90,7 @@ function chrtPoints() {
 
           circle.setAttribute('cx', cx);
           circle.setAttribute('cy', cy);
-          circle.setAttribute('r', r);
+          circle.setAttribute('r', Math.max(0, r));
           circle.setAttribute('fill', this.attr('fill')(d, i, arr));
           circle.setAttribute(
             'fill-opacity',
@@ -117,7 +124,7 @@ chrtPoints.parent = chrtObject.prototype;
 chrtPoints.prototype = Object.assign(chrtPoints.prototype, {
   pointSize,
   size: pointSize,
-  radius: pointSize,
+  radius: pointRadius,
   color: pointColor,
   fill: pointColor,
   stroke: pointStroke,
