@@ -1,9 +1,9 @@
-import * as chrt from 'chrt';
+import Chrt from 'chrt-core';
 import chrtPoints from '~/chrtPoints'
 
 describe('Testing chrtPoints', () => {
   test('Test getXScale', () => {
-    const chart = chrt.Chrt()
+    const chart = Chrt()
                     .data([0,1,2,3,4,5])
     let points;
     chart.add(points = chrtPoints())
@@ -17,7 +17,7 @@ describe('Testing chrtPoints', () => {
   });
 
   test('Test getXScale', () => {
-    const chart = chrt.Chrt().data([0,1,2,3,4,5]);
+    const chart = Chrt().data([0,1,2,3,4,5]);
 
     const points = chrtPoints()
 

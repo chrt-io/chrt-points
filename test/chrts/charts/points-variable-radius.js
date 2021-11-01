@@ -5,19 +5,23 @@ import chrtPoints from '../../../src/chrtPoints'
 const data = [
   {
     x: 'a',
-    y: 10
+    y: 10,
+    r: 6
   },
   {
     x: 'b',
-    y: 14
+    y: 14,
+    r: 2
   },
   {
     x: 'c',
-    y: 14
+    y: 14,
+    r: 9
   },
   {
     x: 'd',
-    y: 22
+    y: 22,
+    r: -10
   }
 ];
 
@@ -34,7 +38,7 @@ export default async function(container) {
           x: d.x,
           y: d.y,
         }))
-        .radius(5)
+        .radius(d => d.r)
         .stroke('#000')
         .strokeWidth(2)
         .strokeOpacity(0.5)
