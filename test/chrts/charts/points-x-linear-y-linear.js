@@ -1,4 +1,5 @@
 import Chrt from 'chrt-core';
+// import * as chrt from 'chrt';
 import {xAxis, yAxis} from 'chrt-axis';
 import chrtPoints from '../../../src/chrtPoints'
 
