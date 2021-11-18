@@ -23,5 +23,7 @@ export default async function(container) {
         .strokeOpacity(0.5)
         .fill('#ff6600')
         .fillOpacity(0.5)
+        .class('class1 class2')
+        .class('class3 class4')
     );
 }

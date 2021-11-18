@@ -36,8 +36,9 @@ function chrtPoints() {
   };
 
   this.draw = () => {
-    this._classNames.forEach(d => this.g.classList.add(d));
-
+    // this._classNames.forEach(d => this.g.classList.add(d));
+    this.g.classList.remove(...this.g.classList)
+    this.g.classList.add(...this._classNames);
     if (!isNull(this._data)) {
       if (isNull(this.fields.x)) {
         this.fields.x = this.parentNode.scales.x[this.scales.x].field;
