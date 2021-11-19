@@ -1,5 +1,3 @@
-import { isNull, isInfinity } from './helpers';
-import { createSVG as create } from './layout';
 import {
   pointSize,
   pointRadius,
@@ -9,13 +7,15 @@ import {
   pointOpacity,
   strokeOpacity
 } from './lib';
-import chrtObject from 'chrt-object';
+import chrtObject, { utils } from 'chrt-object';
+const { isNull, isInfinity } = utils;
 
 const DEFAULT_POINT_RADIUS = 3;
 const DEFAULT_POINT_COLOR = '#000';
 
 function chrtPoints() {
   chrtObject.call(this);
+  // console.log(this.create)
   this.type = 'series';
 
   this.attr('radius', DEFAULT_POINT_RADIUS);
@@ -53,7 +53,9 @@ function chrtPoints() {
         // const point = points.find(p => )
         let circle = this.g.querySelector(`[data-id='circle-${name}-${i}']`);
         if (!circle) {
-          circle = create('circle');
+          //console.log(obj.attr)
+          //circle = obj.create.call(this, 'circle');
+          circle = utils.createSVG.call(this,'circle');
           circle.setAttribute('data-id', `circle-${name}-${i}`);
           this.g.appendChild(circle);
         }
