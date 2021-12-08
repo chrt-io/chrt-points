@@ -70,9 +70,17 @@ function chrtPoints() {
           const cy = !isNaN(y) && !isInfinity(y) ? y : 0;
           let r = this.attr('radius')(d, i, arr);
 
-          const size = this.attr('size')(d,i,arr);
-          if(!isNull(size)) {
-            r = Math.sqrt(size/Math.PI)
+          const size = this.attr('size');
+          if(!isNull(size(d,i,arr))) {
+            const sizeValue = size(d,i,arr);
+            if (sizeValue.options) {
+              const value = sizeValue.value(d, i, arr)
+              this.parentNode.scale({range: sizeValue.options.range || [0,10], scale:'sqrt',field: sizeValue.options.field || 'r', type:'x',name: sizeValue.options.field || 'r'});
+              const rScale = this.parentNode.scales.x[sizeValue.options.field || 'r'];
+              r = rScale(value);
+            } else {
+              r = Math.sqrt(sizeValue/Math.PI)
+            }
           }
 
           d.anchorPoints = {
@@ -93,7 +101,7 @@ function chrtPoints() {
 
           circle.setAttribute('cx', cx);
           circle.setAttribute('cy', cy);
-          circle.setAttribute('r', Math.max(0, r));
+          circle.setAttribute('r', Math.max(0, isNaN(r) ? 0 : r));
           circle.setAttribute('fill', this.attr('fill')(d, i, arr));
           circle.setAttribute(
             'fill-opacity',
