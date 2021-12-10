@@ -38,7 +38,7 @@ export default async function(container) {
           x: d.x,
           y: d.y,
         }))
-        .size(d => d.pop, {range: [0, 100], field: 'pop'})
+        .size(d => d.pop, {range: [0, 50], field: 'pop'})
         .stroke('#000')
         .strokeWidth(2)
         .strokeOpacity(0.5)

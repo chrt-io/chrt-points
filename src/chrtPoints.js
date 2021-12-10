@@ -48,6 +48,29 @@ function chrtPoints() {
         //console.log('this.parentNode.scales', this.parentNode.scales)
         this.fields.y = this.parentNode.scales.y[this.scales.y].field;
       }
+      let rScale = d => Math.sqrt(d/Math.PI);
+      const size = this.attr('size');
+      if(!isNull(size)) {
+        const sizeValue = size({});
+        if (sizeValue?.options) {
+          this.parentNode.scale({
+            range: sizeValue.options.range || [0,10],
+            scale:'sqrt',
+            field: sizeValue.options.field || 'r',
+            type:'x',
+            name: sizeValue.options.field || 'r',
+            margins:{top:0, bottom:0, left:0, right:0},
+            padding:{top:0, bottom:0, left:0, right:0}
+          });
+          rScale = d => {
+            // console.log('rScale',d)
+            // console.log('---->', this.parentNode.scales.x[sizeValue.options.field || 'r'](d))
+            // console.log('range:',this.parentNode.scales.x[sizeValue.options.field || 'r'].range)
+            // console.log('domain:',this.parentNode.scales.x[sizeValue.options.field || 'r'].domain)
+            return this.parentNode.scales.x[sizeValue.options.field || 'r'](d);
+          }
+        }
+      }
 
       this._data.forEach((d, i, arr) => {
         // const point = points.find(p => )
@@ -70,17 +93,21 @@ function chrtPoints() {
           const cy = !isNaN(y) && !isInfinity(y) ? y : 0;
           let r = this.attr('radius')(d, i, arr);
 
-          const size = this.attr('size');
-          if(!isNull(size(d,i,arr))) {
-            const sizeValue = size(d,i,arr);
-            if (sizeValue.options) {
-              const value = sizeValue.value(d, i, arr)
-              this.parentNode.scale({range: sizeValue.options.range || [0,10], scale:'sqrt',field: sizeValue.options.field || 'r', type:'x',name: sizeValue.options.field || 'r'});
-              const rScale = this.parentNode.scales.x[sizeValue.options.field || 'r'];
-              r = rScale(value);
-            } else {
-              r = Math.sqrt(sizeValue/Math.PI)
-            }
+          const size = this.attr('size')(d,i,arr);
+          if(!isNull(size)) {
+            // console.log('d',d,'->',rScale(size(d,i,arr)))
+            r = rScale(size.value ? size.value(d,i,arr) : size);
+            // const sizeValue = size(d,i,arr);
+            // if (sizeValue.options) {
+            //   const value = sizeValue.value(d, i, arr)
+            //   this.parentNode.scale({range: sizeValue.options.range || [0,10], scale:'sqrt',field: sizeValue.options.field || 'r', type:'x',name: sizeValue.options.field || 'r'});
+            //   const rScale = this.parentNode.scales.x[sizeValue.options.field || 'r'];
+            //   console.log()
+            //   const rScale = this.parentNode.scales.x[sizeValue.options.field || 'r'];
+            //   r = rScale(value);
+            // } else {
+            //   r = Math.sqrt(sizeValue/Math.PI)
+            // }
           }
 
           d.anchorPoints = {
