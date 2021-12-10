@@ -50,27 +50,66 @@ function chrtPoints() {
       }
       let rScale = d => Math.sqrt(d/Math.PI);
       const size = this.attr('size');
-      if(!isNull(size)) {
-        const sizeValue = size({});
-        if (sizeValue?.options) {
-          this.parentNode.scale({
-            range: sizeValue.options.range || [0,10],
-            scale:'sqrt',
-            field: sizeValue.options.field || 'r',
-            type:'x',
-            name: sizeValue.options.field || 'r',
-            margins:{top:0, bottom:0, left:0, right:0},
-            padding:{top:0, bottom:0, left:0, right:0}
-          });
-          rScale = d => {
-            // console.log('rScale',d)
-            // console.log('---->', this.parentNode.scales.x[sizeValue.options.field || 'r'](d))
-            // console.log('range:',this.parentNode.scales.x[sizeValue.options.field || 'r'].range)
-            // console.log('domain:',this.parentNode.scales.x[sizeValue.options.field || 'r'].domain)
-            return this.parentNode.scales.x[sizeValue.options.field || 'r'](d);
-          }
+      const sizeScale = size({});
+      // console.log('sizeScale', sizeScale)
+      if (sizeScale?.scale) {
+        // this.parentNode.scale({
+        //   range: sizeValue.options.range || [0,10],
+        //   scale:'sqrt',
+        //   field: sizeValue.options.field || 'r',
+        //   type:'x',
+        //   name: sizeValue.options.field || 'r',
+        //   margins:{top:0, bottom:0, left:0, right:0},
+        //   padding:{top:0, bottom:0, left:0, right:0}
+        // });
+        // console.log('REDEFINE rScale')
+        rScale = d => {
+          const _scale = this.parentNode.scales.other[sizeScale.scale];
+          const field = _scale.field;
+          // console.log(
+          //   '--->',
+          //   d,
+          //   sizeScale.scale,
+          //   field,
+          //   'domain:',
+          //   _scale.domain,
+          //   'range:',
+          //   _scale.range,
+          //   d[field],
+          //   this.parentNode.scales.other[sizeScale.scale](d[field])
+          // )
+          return _scale(d[field]);
         }
       }
+      if (sizeScale?.range) {
+        this.parentNode.scale({
+          range: sizeScale.range || [0,10],
+          scale:'sqrt',
+          field: sizeScale.field || 'r',
+          type:'other',
+          name: sizeScale.field || 'r',
+          margins:{top:0, bottom:0, left:0, right:0},
+          padding:{top:0, bottom:0, left:0, right:0}
+        });
+        console.log('DEFINE rScale', this.parentNode.scales.other)
+        rScale = d => {
+          const field = sizeScale.field || 'r';
+          const _scale = this.parentNode.scales.other[field];
+          console.log(
+            '--->',
+            d,
+            field,
+            'domain:',
+            _scale.domain,
+            'range:',
+            _scale.range,
+            d[field],
+            _scale(d[field])
+          )
+          return _scale(d[field]);
+        }
+      }
+
 
       this._data.forEach((d, i, arr) => {
         // const point = points.find(p => )
@@ -96,18 +135,8 @@ function chrtPoints() {
           const size = this.attr('size')(d,i,arr);
           if(!isNull(size)) {
             // console.log('d',d,'->',rScale(size(d,i,arr)))
-            r = rScale(size.value ? size.value(d,i,arr) : size);
-            // const sizeValue = size(d,i,arr);
-            // if (sizeValue.options) {
-            //   const value = sizeValue.value(d, i, arr)
-            //   this.parentNode.scale({range: sizeValue.options.range || [0,10], scale:'sqrt',field: sizeValue.options.field || 'r', type:'x',name: sizeValue.options.field || 'r'});
-            //   const rScale = this.parentNode.scales.x[sizeValue.options.field || 'r'];
-            //   console.log()
-            //   const rScale = this.parentNode.scales.x[sizeValue.options.field || 'r'];
-            //   r = rScale(value);
-            // } else {
-            //   r = Math.sqrt(sizeValue/Math.PI)
-            // }
+            r = rScale((size?.scale || size?.range) ? d : size);
+            console.log('rScale', d, size, r)
           }
 
           d.anchorPoints = {

@@ -32,7 +32,7 @@ export default async function(container) {
     // .margins({top:0,left:0,bottom:0,right:0})
     // .padding({top:0,left:0,bottom:0,right:0})
     .x({scale:'ordinal'})
-    // .scale({name: 'r', range:[0,50], scale: 'sqrt', field: 'pop', type:'other'})
+    .scale({name: 'r', range:[0,50], scale: 'sqrt', field: 'pop', type:'other'})
     .add(xAxis())
     .add(yAxis())
     .add(
@@ -41,8 +41,8 @@ export default async function(container) {
           x: d.x,
           y: d.y,
         }))
-        .size({range: [0, 50], field: 'pop'})
-        //.size({scale: 'r'})
+        // .size(d => d.pop, {range: [0, 50], field: 'pop'})
+        .size({scale: 'r'})
         .stroke('#000')
         .strokeWidth(2)
         .strokeOpacity(0.5)

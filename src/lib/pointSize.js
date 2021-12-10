@@ -7,6 +7,6 @@ export function pointRadius(value) {
 // 1. pass the size in px, the radius will be calculated as a sqrt function of the area
 // 2. pass the size in value and scale options, this will calculate the radius with a custom
 //    srqt scale
-export function pointSize(value, options) {
-  return this.attr('size', options ? { value, options } : value);
+export function pointSize(value) {
+  return this.attr('size', value);
 }
