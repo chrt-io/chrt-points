@@ -91,21 +91,21 @@ function chrtPoints() {
           margins:{top:0, bottom:0, left:0, right:0},
           padding:{top:0, bottom:0, left:0, right:0}
         });
-        console.log('DEFINE rScale', this.parentNode.scales.other)
+        // console.log('DEFINE rScale', this.parentNode.scales.other)
         rScale = d => {
           const field = sizeScale.field || 'r';
           const _scale = this.parentNode.scales.other[field];
-          console.log(
-            '--->',
-            d,
-            field,
-            'domain:',
-            _scale.domain,
-            'range:',
-            _scale.range,
-            d[field],
-            _scale(d[field])
-          )
+          // console.log(
+          //   '--->',
+          //   d,
+          //   field,
+          //   'domain:',
+          //   _scale.domain,
+          //   'range:',
+          //   _scale.range,
+          //   d[field],
+          //   _scale(d[field])
+          // )
           return _scale(d[field]);
         }
       }
@@ -136,7 +136,7 @@ function chrtPoints() {
           if(!isNull(size)) {
             // console.log('d',d,'->',rScale(size(d,i,arr)))
             r = rScale((size?.scale || size?.range) ? d : size);
-            console.log('rScale', d, size, r)
+            // console.log('rScale', d, size, r)
           }
 
           d.anchorPoints = {
