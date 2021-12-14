@@ -83,6 +83,7 @@ function chrtPoints() {
       }
       if (sizeScale?.range) {
         this.parentNode.scale({
+          domain: sizeScale.domain,
           range: sizeScale.range || [0,10],
           scale:'sqrt',
           field: sizeScale.field || 'r',
