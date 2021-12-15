@@ -8,3 +8,4 @@ export { default as scatterPlotVariableSizeWithSqrtScaleWithDomain } from './poi
 export { default as scatterPlotVariableSizeWithPredefinedSqrtScaleWithDomain } from './points-variable-size-with-predefined-sqrt-scale-with-domain.js';
 export { default as scatterPlotXLinearYLinearAddClasses } from './points-x-linear-y-linear-add-classes.js';
 export { default as singlePoint } from './single-point.js';
+export { default as multipleScatterPlotsVariableSizeWithSqrtScale } from './multiple-points-variable-size-with-sqrt-scale.js';

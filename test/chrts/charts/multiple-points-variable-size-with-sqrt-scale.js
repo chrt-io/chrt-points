@@ -6,27 +6,35 @@ const data = [
   {
     x: 'a',
     y: 10,
-    pop: 600
+    y2: 22,
+    pop: 600,
+    pop2: 240,
   },
   {
     x: 'b',
     y: 14,
-    pop: 20
+    y2: 22,
+    pop: 20,
+    pop2: 140,
   },
   {
     x: 'c',
     y: 14,
-    pop: 190
+    y2: 22,
+    pop: 190,
+    pop2: 120,
   },
   {
     x: 'd',
     y: 22,
-    pop: 380
+    y2: 22,
+    pop: 380,
+    pop2: 1200,
   }
 ];
 
 export default async function(container) {
-  return Chrt()
+  const chart = Chrt()
     .node(container)
     .size(600, 200)
     // .margins({top:0,left:0,bottom:0,right:0})
@@ -49,5 +57,22 @@ export default async function(container) {
         .strokeOpacity(0.5)
         .fill('#ff6600')
         .fillOpacity(0.5)
+    )
+    .add(
+      chrtPoints()
+        .data(data, d => ({
+          x: d.x,
+          y: d.y2,
+          r: d.pop2,
+        }))
+        .size({range: [0, 50], field: 'r'})
+        //.size({scale: 'r'})
+        .stroke('#000')
+        .strokeWidth(2)
+        .strokeOpacity(0.5)
+        .fill('#336699')
+        .fillOpacity(0.5)
     );
+
+    return chart;
 }
