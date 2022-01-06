@@ -7,7 +7,7 @@ import {
   pointOpacity,
   strokeOpacity
 } from './lib';
-import chrtObject, { utils } from 'chrt-object';
+import chrtObject, { utils, cssDisplay } from 'chrt-object';
 const { isNull, isInfinity } = utils;
 
 const DEFAULT_POINT_RADIUS = 3;
@@ -36,7 +36,8 @@ function chrtPoints() {
   };
 
   this.draw = () => {
-    // this._classNames.forEach(d => this.g.classList.add(d));
+    cssDisplay.call(this, this.attr('display')());
+
     this.g.classList.remove(...this.g.classList)
     this.g.classList.add(...this._classNames);
     if (!isNull(this._data)) {
