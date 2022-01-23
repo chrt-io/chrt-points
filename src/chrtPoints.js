@@ -5,13 +5,20 @@ import {
   pointStroke,
   pointStrokeWidth,
   pointOpacity,
-  strokeOpacity
+  strokeOpacity,
+  pointSymbol,
+  pointRotate,
+  shapes,
 } from './lib';
+
+
 import chrtObject, { utils, cssDisplay } from 'chrt-object';
 const { isNull, isInfinity } = utils;
 
 const DEFAULT_POINT_RADIUS = 3;
 const DEFAULT_POINT_COLOR = '#000';
+const DEFAULT_POINT_ROTATION = 0;
+const POINT_SYMBOLS = ['circle', 'square'];
 
 function chrtPoints() {
   chrtObject.call(this);
@@ -25,6 +32,8 @@ function chrtPoints() {
   this.attr('strokeOpacity', 1);
   this.attr('fillOpacity', 1);
   this.attr('size', null);
+  this.attr('rotate', DEFAULT_POINT_ROTATION);
+  this.attr('symbol', {symbol: POINT_SYMBOLS[0]});
 
   this._classNames = ['chrt-points'];
 
@@ -114,15 +123,6 @@ function chrtPoints() {
 
 
       this._data.forEach((d, i, arr) => {
-        // const point = points.find(p => )
-        let circle = this.g.querySelector(`[data-id='circle-${name}-${i}']`);
-        if (!circle) {
-          //console.log(obj.attr)
-          //circle = obj.create.call(this, 'circle');
-          circle = utils.createSVG.call(this,'circle');
-          circle.setAttribute('data-id', `circle-${name}-${i}`);
-          this.g.appendChild(circle);
-        }
         if (
           !isNull(this.parentNode.scales.x[this.scales.x]) &&
           !isNull(this.parentNode.scales.y[this.scales.y])
@@ -156,24 +156,51 @@ function chrtPoints() {
               vertical: 'top',
             }
           };
+          const {symbol, path} = this.attr('symbol')();
+          let point = this.g.querySelector(`[data-id='point-${name}-${i}']`);
+          if (!point) {
+            //console.log(obj.attr)
+            //circle = obj.create.call(this, 'circle');
+            point = utils.createSVG.call(this, symbol === 'circle' ? 'circle' : 'path');
+            point.setAttribute('data-id', `point-${name}-${i}`);
+            this.g.appendChild(point);
+          }
 
-          circle.setAttribute('cx', cx);
-          circle.setAttribute('cy', cy);
-          circle.setAttribute('r', Math.max(0, isNaN(r) ? 0 : r));
-          circle.setAttribute('fill', this.attr('fill')(d, i, arr));
-          circle.setAttribute(
+          // console.log('POINT', symbol, point)
+          if(symbol === 'custom') {
+            shapes.custom(point,path);
+          } else {
+            shapes[symbol](point,0,0,r);
+          }
+
+
+
+          point.setAttribute('fill', this.attr('fill')(d, i, arr));
+          point.setAttribute(
             'fill-opacity',
             this.attr('fillOpacity')(d, i, arr) || 1
           );
-          circle.setAttribute('stroke', this.attr('stroke')(d, i, arr));
-          circle.setAttribute(
+          point.setAttribute('stroke', this.attr('stroke')(d, i, arr));
+          point.setAttribute(
             'stroke-width',
             this.attr('strokeWidth')(d, i, arr)
           );
-          circle.setAttribute(
+          point.setAttribute(
             'stroke-opacity',
             this.attr('strokeOpacity')(d, i, arr)
           );
+
+          point.setAttribute(
+            'transform-origin',
+            `0 0`
+          );
+
+          point.setAttribute(
+            'transform',
+            `translate(${cx}, ${cy}) rotate(${this.attr('rotate')(d, i, arr)})`
+          );
+
+
         }
       });
 
@@ -200,6 +227,8 @@ chrtPoints.prototype = Object.assign(chrtPoints.prototype, {
   strokeWidth: pointStrokeWidth,
   opacity: pointOpacity,
   fillOpacity: pointOpacity,
+  rotate: pointRotate,
+  symbol: pointSymbol,
   strokeOpacity
 });
 

@@ -9,3 +9,4 @@ export { default as scatterPlotVariableSizeWithPredefinedSqrtScaleWithDomain } f
 export { default as scatterPlotXLinearYLinearAddClasses } from './points-x-linear-y-linear-add-classes.js';
 export { default as singlePoint } from './single-point.js';
 export { default as multipleScatterPlotsVariableSizeWithSqrtScale } from './multiple-points-variable-size-with-sqrt-scale.js';
+export { default as symbolsXLinearYLinear } from './points-symbols-x-linear-y-linear.js';
