@@ -1,3 +1,3 @@
-export default function pointColor(value, path) {
-  return this.attr('symbol', { symbol: value, path })
+export default function pointColor(value, option) {
+  return this.attr('symbol', { symbol: value, option })
 }

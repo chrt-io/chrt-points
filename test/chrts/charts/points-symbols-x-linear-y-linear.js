@@ -3,7 +3,7 @@ import * as chrt from 'chrt';
 // import {xAxis, yAxis} from 'chrt-axis';
 import chrtPoints from '../../../src/chrtPoints'
 
-const data = new Array(15).fill(1).map((d,i) => ({x: 0 + i, y: 0 + i}));
+const data = new Array(21).fill(1).map((d,i) => ({x: 0 + i, y: 0 + i}));
 
 export default async function(container) {
   return chrt.Chrt()
@@ -50,6 +50,7 @@ export default async function(container) {
           y: d.y,
         }))
         .size(20)
+        //.symbol('circle')
         //.symbol('times').strokeWidth(2)
     )
     .add(
@@ -62,5 +63,26 @@ export default async function(container) {
         .symbol('custom','M-3,-3l4,4m0,-4l4,4')
         .strokeWidth(2)
         .stroke('#f00')
+    )
+    .add(
+      chrtPoints()
+        .data(data.slice(15,18), d => ({
+          x: d.x,
+          y: d.y,
+        }))
+        .size(16)
+        .symbol('text','😎')
+    )
+    .add(
+      chrtPoints()
+        .data(data.slice(18,21), d => ({
+          x: d.x,
+          y: d.y,
+        }))
+        .size(12)
+        .symbol('text','O')
+        .strokeWidth(1)
+        .stroke('#000')
+        .fill('#f00')
     )
 }

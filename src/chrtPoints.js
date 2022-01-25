@@ -156,19 +156,23 @@ function chrtPoints() {
               vertical: 'top',
             }
           };
-          const {symbol, path} = this.attr('symbol')();
+          const {symbol, option} = this.attr('symbol')();
           let point = this.g.querySelector(`[data-id='point-${name}-${i}']`);
           if (!point) {
             //console.log(obj.attr)
             //circle = obj.create.call(this, 'circle');
-            point = utils.createSVG.call(this, symbol === 'circle' ? 'circle' : 'path');
+            point = utils.createSVG.call(this,
+              (symbol !== 'circle' && symbol !== 'text') ? 'path' : symbol
+            );
             point.setAttribute('data-id', `point-${name}-${i}`);
             this.g.appendChild(point);
           }
 
           // console.log('POINT', symbol, point)
           if(symbol === 'custom') {
-            shapes.custom(point,path);
+            shapes.custom(point, option);
+          } else if (symbol === 'text') {
+            shapes.text(point, option, r * 10);
           } else {
             shapes[symbol](point,0,0,r);
           }

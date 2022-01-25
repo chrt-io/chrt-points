@@ -24,3 +24,12 @@ export const times = (point, x = 0, y = 0, r = DEFAULT_POINT_RADIUS) => {
 export const custom = (point, path) => {
   point.setAttribute('d', path);
 }
+
+export const text = (point, text, r) => {
+  point.setAttribute('x', 0);
+  point.setAttribute('y', 0);
+  point.setAttribute('text-anchor', 'middle');
+  point.setAttribute('dominant-baseline', 'middle');
+  point.setAttribute('font-size', r);
+  point.textContent = text;
+}
