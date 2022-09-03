@@ -106,21 +106,17 @@ function chrtPoints() {
         rScale = d => {
           const field = sizeScale.field || 'r';
           const _scale = this.parentNode.scales.other[field];
-          // console.log(
-          //   '--->',
-          //   d,
-          //   field,
-          //   'domain:',
-          //   _scale.domain,
-          //   'range:',
-          //   _scale.range,
-          //   d[field],
-          //   _scale(d[field])
-          // )
           return _scale(d[field]);
         }
       }
 
+      // remove old points from SVG
+      const dataChildrenDelta = (this.g.childElementCount - this._data.length);
+      if(dataChildrenDelta > 0) {
+        Array.from({length: dataChildrenDelta}, (_, i) => i + this._data.length).forEach(d => {
+          this.g.querySelector(`[data-id='point-${name}-${d}']`).remove();
+        })
+      }
 
       this._data.forEach((d, i, arr) => {
         if (
