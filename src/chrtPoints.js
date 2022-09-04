@@ -113,8 +113,8 @@ function chrtPoints() {
       // remove old points from SVG
       const dataChildrenDelta = (this.g.childElementCount - this._data.length);
       if(dataChildrenDelta > 0) {
-        Array.from({length: dataChildrenDelta}, (_, i) => i + this._data.length).forEach(d => {
-          this.g.querySelector(`[data-id='point-${name}-${d}']`).remove();
+        Array.from({length: dataChildrenDelta}, (_, i) => i + this._data.length).forEach(i => {
+          this.g.querySelector(`[data-id='${escape(`point-${name}-${i}`)}']`).remove();
         })
       }
 
@@ -153,14 +153,15 @@ function chrtPoints() {
             }
           };
           const {symbol, option} = this.attr('symbol')();
-          let point = this.g.querySelector(`[data-id='point-${name}-${i}']`);
+          const dataID = escape(`point-${name}-${i}`)
+          let point = this.g.querySelector(`[data-id='${dataID}']`);
           if (!point) {
             //console.log(obj.attr)
             //circle = obj.create.call(this, 'circle');
             point = utils.createSVG.call(this,
               (symbol !== 'circle' && symbol !== 'text') ? 'path' : symbol
             );
-            point.setAttribute('data-id', `point-${name}-${i}`);
+            point.setAttribute('data-id', dataID);
             this.g.appendChild(point);
           }
 
