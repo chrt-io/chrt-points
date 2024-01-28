@@ -11,7 +11,6 @@ import {
   shapes,
 } from './lib';
 
-
 import chrtObject, { utils, cssDisplay } from 'chrt-object';
 const { isNull, isInfinity } = utils;
 
@@ -33,7 +32,7 @@ function chrtPoints() {
   this.attr('fillOpacity', 1);
   this.attr('size', null);
   this.attr('rotate', DEFAULT_POINT_ROTATION);
-  this.attr('symbol', {symbol: POINT_SYMBOLS[0]});
+  this.attr('symbol', { symbol: POINT_SYMBOLS[0] });
 
   this._classNames = ['chrt-points'];
 
@@ -47,7 +46,7 @@ function chrtPoints() {
   this.draw = () => {
     cssDisplay.call(this, this.attr('display')());
 
-    this.g.classList.remove(...this.g.classList)
+    this.g.classList.remove(...this.g.classList);
     this.g.classList.add(...this._classNames);
     if (!isNull(this._data)) {
       if (isNull(this.fields.x)) {
@@ -58,7 +57,7 @@ function chrtPoints() {
         //console.log('this.parentNode.scales', this.parentNode.scales)
         this.fields.y = this.parentNode.scales.y[this.scales.y].field;
       }
-      let rScale = d => Math.sqrt(d/Math.PI);
+      let rScale = (d) => Math.sqrt(d / Math.PI);
       const size = this.attr('size');
       const sizeScale = size({});
       // console.log('sizeScale', sizeScale)
@@ -73,7 +72,7 @@ function chrtPoints() {
         //   padding:{top:0, bottom:0, left:0, right:0}
         // });
         // console.log('REDEFINE rScale')
-        rScale = d => {
+        rScale = (d) => {
           const _scale = this.parentNode.scales.other[sizeScale.scale];
           const field = _scale.field;
           // console.log(
@@ -89,33 +88,38 @@ function chrtPoints() {
           //   this.parentNode.scales.other[sizeScale.scale](d[field])
           // )
           return _scale(d[field]);
-        }
+        };
       }
       if (sizeScale?.range) {
         this.parentNode.scale({
           domain: sizeScale.domain,
-          range: sizeScale.range || [0,10],
-          scale:'sqrt',
+          range: sizeScale.range || [0, 10],
+          scale: 'sqrt',
           field: sizeScale.field || 'r',
-          type:'other',
+          type: 'other',
           name: sizeScale.field || 'r',
-          margins:{top:0, bottom:0, left:0, right:0},
-          padding:{top:0, bottom:0, left:0, right:0}
+          margins: { top: 0, bottom: 0, left: 0, right: 0 },
+          padding: { top: 0, bottom: 0, left: 0, right: 0 },
         });
         // console.log('DEFINE rScale', this.parentNode.scales.other)
-        rScale = d => {
+        rScale = (d) => {
           const field = sizeScale.field || 'r';
           const _scale = this.parentNode.scales.other[field];
           return _scale(d[field]);
-        }
+        };
       }
 
       // remove old points from SVG
-      const dataChildrenDelta = (this.g.childElementCount - this._data.length);
-      if(dataChildrenDelta > 0) {
-        Array.from({length: dataChildrenDelta}, (_, i) => i + this._data.length).forEach(i => {
-          this.g.querySelector(`[data-id='${escape(`point-${name}-${i}`)}']`).remove();
-        })
+      const dataChildrenDelta = this.g.childElementCount - this._data.length;
+      if (dataChildrenDelta > 0) {
+        Array.from(
+          { length: dataChildrenDelta },
+          (_, i) => i + this._data.length,
+        ).forEach((i) => {
+          this.g
+            .querySelector(`[data-id='${escape(`point-${name}-${i}`)}']`)
+            .remove();
+        });
       }
 
       this._data.forEach((d, i, arr) => {
@@ -130,10 +134,10 @@ function chrtPoints() {
           const cy = !isNaN(y) && !isInfinity(y) ? y : 0;
           let r = this.attr('radius')(d, i, arr);
 
-          const size = this.attr('size')(d,i,arr);
-          if(!isNull(size)) {
+          const size = this.attr('size')(d, i, arr);
+          if (!isNull(size)) {
             // console.log('d',d,'->',rScale(size(d,i,arr)))
-            r = rScale((size?.scale || size?.range) ? d : size);
+            r = rScale(size?.scale || size?.range ? d : size);
             // console.log('rScale', d, size, r)
           }
 
@@ -142,7 +146,7 @@ function chrtPoints() {
             width: r,
             y: cy,
             height: r,
-            relativePosition: [0,-1],
+            relativePosition: [0, -1],
             directions: {
               x: 1,
               y: 1,
@@ -150,66 +154,60 @@ function chrtPoints() {
             alignment: {
               horizontal: 'middle',
               vertical: 'top',
-            }
+            },
           };
-          const {symbol, option} = this.attr('symbol')();
-          const dataID = escape(`point-${name}-${i}`)
+          const { symbol, option } = this.attr('symbol')();
+          const dataID = escape(`point-${name}-${i}`);
           let point = this.g.querySelector(`[data-id='${dataID}']`);
           if (!point) {
             //console.log(obj.attr)
             //circle = obj.create.call(this, 'circle');
-            point = utils.createSVG.call(this,
-              (symbol !== 'circle' && symbol !== 'text') ? 'path' : symbol
+            point = utils.createSVG.call(
+              this,
+              symbol !== 'circle' && symbol !== 'text' ? 'path' : symbol,
             );
             point.setAttribute('data-id', dataID);
             this.g.appendChild(point);
           }
-
+          d.anchorPoints.node = point;
           // console.log('POINT', symbol, point)
-          if(symbol === 'custom') {
+          if (symbol === 'custom') {
             shapes.custom(point, option);
           } else if (symbol === 'text') {
             shapes.text(point, option, r * 10);
           } else {
-            shapes[symbol](point,0,0,r);
+            shapes[symbol](point, 0, 0, r);
           }
-
-
 
           point.setAttribute('fill', this.attr('fill')(d, i, arr));
           point.setAttribute(
             'fill-opacity',
-            this.attr('fillOpacity')(d, i, arr) || 1
+            this.attr('fillOpacity')(d, i, arr) || 1,
           );
           point.setAttribute('stroke', this.attr('stroke')(d, i, arr));
           point.setAttribute(
             'stroke-width',
-            this.attr('strokeWidth')(d, i, arr)
+            this.attr('strokeWidth')(d, i, arr),
           );
           point.setAttribute(
             'stroke-opacity',
-            this.attr('strokeOpacity')(d, i, arr)
+            this.attr('strokeOpacity')(d, i, arr),
           );
 
-          point.setAttribute(
-            'transform-origin',
-            `0 0`
-          );
+          point.setAttribute('transform-origin', `0 0`);
 
           point.setAttribute(
             'transform',
-            `translate(${cx}, ${cy}) rotate(${this.attr('rotate')(d, i, arr)})`
+            `translate(${cx}, ${cy}) rotate(${this.attr('rotate')(d, i, arr)})`,
           );
-
-
         }
       });
 
       // // // console.log('points', points);
     }
 
-    this.objects.forEach(obj => obj.draw());
-
+    this.objects.forEach((obj) => obj.draw());
+    console.log(this);
     return this;
   };
 }
@@ -230,10 +228,10 @@ chrtPoints.prototype = Object.assign(chrtPoints.prototype, {
   fillOpacity: pointOpacity,
   rotate: pointRotate,
   symbol: pointSymbol,
-  strokeOpacity
+  strokeOpacity,
 });
 
 // export default chrtPoints;
-export default function() {
+export default function () {
   return new chrtPoints();
 }
