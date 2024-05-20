@@ -207,7 +207,7 @@ function chrtPoints() {
     }
 
     this.objects.forEach((obj) => obj.draw());
-    console.log(this);
+    // console.log(this);
     return this;
   };
 }
