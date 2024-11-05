@@ -161,6 +161,30 @@ Chrt().add(
 );
 ```
 
+#### Custom scale for size
+
+Define a custom scale for the size of the points, with a domain and a range and a scaling function.
+
+```js
+Chrt()
+  .scale({
+    name: "r",
+    range: [0, 50],
+    domain: [0, 10000],
+    scale: "sqrt",
+    field: "population",
+    type: "other",
+  })
+  .add(
+    chrtPoints()
+      .data(data)
+      .size({ scale: "r" })
+      .fill((d) => (d.category === "A" ? "#ff0000" : "#0000ff"))
+      .opacity(0.7)
+      .stroke("#333"),
+  );
+```
+
 #### Custom Symbols
 
 ```js
@@ -170,6 +194,8 @@ Chrt().add(
 ```
 
 #### Points with Multiple Visual Encodings
+
+The dataset could encode multiple visual encodings, such as size, color, opacity, symbol, and rotation based on the single data point.
 
 ```js
 Chrt().add(
