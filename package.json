@@ -50,7 +50,7 @@
   "author": "chrt",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/chrt/chrt-points/issues"
+    "url": "https://github.com/chrt-io/chrt-points/issues"
   },
   "homepage": "chrt.io",
   "dependencies": {
